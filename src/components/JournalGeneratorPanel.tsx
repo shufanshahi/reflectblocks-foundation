@@ -24,6 +24,7 @@ type JournalGeneratorPanelProps = {
   connections: SavedConnection[];
   onPlaySound?: () => void;
   onOpenJournal?: () => void;
+  onRetentionChange?: () => void;
 };
 
 type Stage = "closed" | "select" | "confirm" | "generating" | "draft";
@@ -127,6 +128,7 @@ export function JournalGeneratorPanel({
   connections,
   onPlaySound,
   onOpenJournal,
+  onRetentionChange,
 }: JournalGeneratorPanelProps) {
   const [config, setConfig] = useState<AIConfig | null>(null);
   const [stage, setStage] = useState<Stage>("closed");
@@ -351,6 +353,7 @@ export function JournalGeneratorPanel({
       clearRecovery(generationRecoveryKey);
       setRecoveryAvailable(null);
       setSaveMessage(`Saved ${formatSavedTime(saved.updated_at)}`);
+      onRetentionChange?.();
       void trackUsability("journal_saved", reflectionId, { source_count: saved.paragraphs.reduce((sum, item) => sum + item.sources.length, 0) });
       onPlaySound?.();
     } catch (err) {

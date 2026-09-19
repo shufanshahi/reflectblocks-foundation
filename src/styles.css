@@ -1140,3 +1140,5 @@ select:focus-visible { outline: 3px solid #a9b7f7; outline-offset: 2px; }
     flex-wrap: wrap;
   }
 }
+
+.retention-status { margin: 0 0 12px; padding: 8px 11px; border-radius: 10px; background: #f1f4f8; color: #3d4a5c; font-size: 12px; line-height: 1.5; }

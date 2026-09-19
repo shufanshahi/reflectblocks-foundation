@@ -34,6 +34,7 @@ import {
 } from "./ConnectionLayer";
 import { ReflectionBlock } from "./ReflectionBlock";
 import { ConfirmDialog } from "./ConfirmDialog";
+import { RetentionStatus } from "./RetentionStatus";
 
 type ReflectionWorkspaceProps = {
   reflectionId: string;
@@ -143,6 +144,8 @@ export function ReflectionWorkspace({ reflectionId, onBack, onOpenJournal, onOpe
   const [baseUpdatedAt, setBaseUpdatedAt] = useState<number | null>(null);
   const [confirmClearBlocks, setConfirmClearBlocks] = useState(false);
   const [confirmDeleteReflection, setConfirmDeleteReflection] = useState(false);
+  const [confirmLeave, setConfirmLeave] = useState(false);
+  const [retentionTick, setRetentionTick] = useState(0);
   const recoveryStorageKey = useMemo(() => recoveryKey("workspace", reflectionId), [reflectionId]);
 
   useEffect(() => {
@@ -583,7 +586,8 @@ export function ReflectionWorkspace({ reflectionId, onBack, onOpenJournal, onOpe
       setRecovered(false);
       clearRecovery(recoveryStorageKey);
       setBaseUpdatedAt(Math.floor(Date.now() / 1000));
-      setSaveMessage("Blocks saved");
+      setSaveMessage("Blocks saved. Any generated entry or free writing was not changed.");
+      setRetentionTick((tick) => tick + 1);
       void trackUsability("workspace_saved", reflectionId, { block_count: saved.blocks.length, connection_count: saved.connections.length, answered_count: saved.blocks.filter((item) => item.answer.trim()).length });
       playSound("save");
       window.setTimeout(() => setSaveMessage(null), 1800);
@@ -626,13 +630,26 @@ export function ReflectionWorkspace({ reflectionId, onBack, onOpenJournal, onOpe
       setRecovered(false);
       clearRecovery(recoveryStorageKey);
       setBaseUpdatedAt(Math.floor(Date.now() / 1000));
-      setSaveMessage("Saved blocks deleted");
+      setSaveMessage("Saved blocks deleted. Quick thought, generated entry and free writing remain.");
+      setRetentionTick((tick) => tick + 1);
       void trackUsability("delete_action", reflectionId, { action: "blocks" });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not delete blocks.");
     } finally {
       setConfirmClearBlocks(false);
     }
+  }
+
+  function requestLeave() {
+    if (dirty) setConfirmLeave(true);
+    else onBack();
+  }
+
+  function leaveWithoutSaving() {
+    clearRecovery(recoveryStorageKey);
+    void trackUsability("discard_unsaved", reflectionId, { action: "workspace_leave" });
+    setConfirmLeave(false);
+    onBack();
   }
 
   async function removeReflection() {
@@ -666,7 +683,7 @@ export function ReflectionWorkspace({ reflectionId, onBack, onOpenJournal, onOpe
   return (
     <section className="reflection-workspace-page">
       <div className="workspace-topline">
-        <button className="back-button" type="button" onClick={onBack}>← Reflections</button>
+        <button className="back-button" type="button" onClick={requestLeave}>← Reflections</button>
         <div className="workspace-save-area">
           <span className={`save-state ${dirty ? "unsaved" : ""}`} aria-live="polite">
             {saveMessage ?? (dirty ? "Unsaved changes" : "All changes saved")}
@@ -697,9 +714,11 @@ export function ReflectionWorkspace({ reflectionId, onBack, onOpenJournal, onOpe
       <div className="workspace-control-strip" aria-label="Reflection controls">
         <button className="secondary-button" type="button" onClick={onOpenFreeWriting}>Write freely</button>
         {dirty ? <button className="secondary-button" type="button" onClick={() => { void discardUnsavedWorkspace(); }}>Save nothing</button> : null}
-        {blocks.length > 0 ? <button className="danger-text-button" type="button" onClick={() => setConfirmClearBlocks(true)}>Delete saved blocks</button> : null}
-        <button className="danger-text-button" type="button" onClick={() => setConfirmDeleteReflection(true)}>Delete reflection</button>
+        {blocks.length > 0 ? <button className="danger-text-button" type="button" onClick={() => setConfirmClearBlocks(true)}>Delete blocks only</button> : null}
+        <button className="danger-text-button" type="button" onClick={() => setConfirmDeleteReflection(true)}>Delete everything</button>
       </div>
+
+      <RetentionStatus reflectionId={reflectionId} refreshKey={retentionTick} />
 
       {error ? <p className="error workspace-error" role="alert">{error}</p> : null}
 
@@ -710,6 +729,7 @@ export function ReflectionWorkspace({ reflectionId, onBack, onOpenJournal, onOpe
         connections={connections}
         onPlaySound={() => playSound("ai")}
         onOpenJournal={onOpenJournal}
+        onRetentionChange={() => setRetentionTick((tick) => tick + 1)}
       />
 
       <div className="scratch-layout enhanced drawio-layout">
@@ -843,19 +863,27 @@ export function ReflectionWorkspace({ reflectionId, onBack, onOpenJournal, onOpe
       </div>
 
       <ConfirmDialog
+        open={confirmLeave}
+        title="Leave without saving?"
+        description="Your unsaved block changes will be discarded, including the recovery copy on this device. What you already saved stays as it is."
+        confirmLabel="Leave without saving"
+        onConfirm={leaveWithoutSaving}
+        onCancel={() => setConfirmLeave(false)}
+      />
+      <ConfirmDialog
         open={confirmClearBlocks}
-        title="Delete all saved blocks?"
-        description="This permanently deletes the reflection blocks and semantic arrows. Your quick thought, saved journal, and free writing remain."
-        confirmLabel="Delete blocks"
+        title="Delete the blocks only?"
+        description="This permanently deletes all reflection blocks and arrows. It cannot be undone. Your quick thought, generated entry, and free writing are kept."
+        confirmLabel="Delete blocks permanently"
         danger
         onConfirm={() => { void clearSavedBlocks(); }}
         onCancel={() => setConfirmClearBlocks(false)}
       />
       <ConfirmDialog
         open={confirmDeleteReflection}
-        title="Delete this entire reflection?"
-        description="This permanently deletes the quick thought, blocks, saved generated journal, and free-writing document for this reflection."
-        confirmLabel="Delete reflection"
+        title="Delete everything?"
+        description="This permanently deletes the quick thought, all blocks and arrows, the generated entry, and the free writing for this reflection. Nothing will be kept and it cannot be undone."
+        confirmLabel="Delete everything permanently"
         danger
         onConfirm={() => { void removeReflection(); }}
         onCancel={() => setConfirmDeleteReflection(false)}

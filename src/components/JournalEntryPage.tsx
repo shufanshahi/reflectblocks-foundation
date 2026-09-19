@@ -12,6 +12,7 @@ import {
 import { clearRecovery, readRecovery, recoveryKey, writeRecovery } from "../lib/draftRecovery";
 import { trackUsability } from "../lib/usability";
 import { ConfirmDialog } from "./ConfirmDialog";
+import { RetentionStatus } from "./RetentionStatus";
 
 type JournalEntryPageProps = {
   reflectionId: string;
@@ -77,6 +78,8 @@ export function JournalEntryPage({
   const [inspectedSource, setInspectedSource] = useState<InspectedSource | null>(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [confirmDiscard, setConfirmDiscard] = useState(false);
+  const [confirmLeave, setConfirmLeave] = useState(false);
+  const [retentionTick, setRetentionTick] = useState(0);
   const key = useMemo(() => recoveryKey("journal", reflectionId), [reflectionId]);
 
   useEffect(() => {
@@ -200,7 +203,8 @@ export function JournalEntryPage({
       clearRecovery(key);
       setDirty(false);
       setRecovered(false);
-      setSaveMessage(`Saved ${formatSavedTime(saved.updated_at)}`);
+      setSaveMessage(`Saved ${formatSavedTime(saved.updated_at)}. Reflection blocks were not changed.`);
+      setRetentionTick((tick) => tick + 1);
       void trackUsability("journal_saved", reflectionId, { source_count: saved.paragraphs.reduce((sum, item) => sum + item.sources.length, 0) });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not update journal entry.");
@@ -232,6 +236,18 @@ export function JournalEntryPage({
     }
   }
 
+  function requestLeave() {
+    if (dirty) setConfirmLeave(true);
+    else onBack();
+  }
+
+  function leaveWithoutSaving() {
+    clearRecovery(key);
+    void trackUsability("discard_unsaved", reflectionId, { action: "journal_leave" });
+    setConfirmLeave(false);
+    onBack();
+  }
+
   function exportJournal(format: "txt" | "md") {
     if (!entry) return;
     const paragraphs = entry.paragraphs.map((paragraph) => paragraph.text.trim()).filter(Boolean);
@@ -240,6 +256,9 @@ export function JournalEntryPage({
       : `${entry.title.trim()}\n${"=".repeat(Math.min(entry.title.trim().length, 60))}\n\n${paragraphs.join("\n\n")}\n`;
     downloadText(`${safeFilename(entry.title)}.${format}`, text, format === "md" ? "text/markdown" : "text/plain");
     void trackUsability("export_clicked", reflectionId, { format });
+    setSaveMessage(dirty
+      ? `Exported the last saved version (.${format}) to your device. Your unsaved edits were not included, and nothing was deleted.`
+      : `Exported a copy (.${format}) to your device. Nothing was deleted or changed.`);
   }
 
   if (loading) {
@@ -272,12 +291,12 @@ export function JournalEntryPage({
   return (
     <section className="journal-page page-enter">
       <div className="journal-page-topbar">
-        <button className="back-button" type="button" onClick={onBack}>← Reflections</button>
+        <button className="back-button" type="button" onClick={requestLeave}>← Reflections</button>
         <div className="journal-page-actions">
           <button className="secondary-button" type="button" onClick={onOpenFreeWriting}>Free writing</button>
           <button className="secondary-button" type="button" onClick={onOpenWorkspace}>Workspace</button>
-          <button className="secondary-button" type="button" onClick={() => exportJournal("txt")}>Export .txt</button>
-          <button className="secondary-button" type="button" onClick={() => exportJournal("md")}>Export .md</button>
+          <button className="secondary-button" type="button" onClick={() => exportJournal("txt")}>Export entry (.txt)</button>
+          <button className="secondary-button" type="button" onClick={() => exportJournal("md")}>Export entry (.md)</button>
           <button className="primary-button" type="button" onClick={saveChanges} disabled={!dirty || saving}>
             {saving ? "Saving…" : dirty ? "Save changes" : "Saved"}
           </button>
@@ -290,6 +309,8 @@ export function JournalEntryPage({
           <button className="micro-button" type="button" onClick={() => setConfirmDiscard(true)}>Save nothing</button>
         </div>
       ) : null}
+
+      <RetentionStatus reflectionId={reflectionId} refreshKey={retentionTick} />
 
       {reflection ? (
         <div className="journal-context-strip">
@@ -349,7 +370,7 @@ export function JournalEntryPage({
           <span>Your edits update the saved journal only. Reflection blocks stay unchanged.</span>
           <div className="journal-retention-actions">
             {dirty ? <button className="secondary-button" type="button" onClick={() => setConfirmDiscard(true)}>Save nothing</button> : null}
-            <button className="danger-text-button" type="button" onClick={() => setConfirmDelete(true)}>Delete journal</button>
+            <button className="danger-text-button" type="button" onClick={() => setConfirmDelete(true)}>Delete generated entry</button>
             <button className="primary-button" type="button" onClick={saveChanges} disabled={!dirty || saving}>
               {saving ? "Saving changes…" : dirty ? "Update journal" : "Journal up to date"}
             </button>
@@ -383,6 +404,14 @@ export function JournalEntryPage({
       {error ? <p className="error journal-page-error" role="alert">{error}</p> : null}
 
       <ConfirmDialog
+        open={confirmLeave}
+        title="Leave without saving?"
+        description="Your unsaved edits to this entry will be discarded, including the recovery copy on this device. The last saved entry stays as it is."
+        confirmLabel="Leave without saving"
+        onConfirm={leaveWithoutSaving}
+        onCancel={() => setConfirmLeave(false)}
+      />
+      <ConfirmDialog
         open={confirmDiscard}
         title="Save nothing from these edits?"
         description="Your unsaved journal edits and local recovery copy will be discarded. The last saved journal stays unchanged."
@@ -392,9 +421,9 @@ export function JournalEntryPage({
       />
       <ConfirmDialog
         open={confirmDelete}
-        title="Delete the saved journal?"
-        description="This permanently deletes only the generated journal entry. Your quick thought, blocks, semantic map, and free writing remain."
-        confirmLabel="Delete journal"
+        title="Delete the generated entry?"
+        description="This permanently deletes only the generated entry and cannot be undone. Your quick thought, reflection blocks, arrows, and free writing are kept."
+        confirmLabel="Delete entry permanently"
         danger
         onConfirm={() => { void removeJournal(); }}
         onCancel={() => setConfirmDelete(false)}

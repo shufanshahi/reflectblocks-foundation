@@ -456,8 +456,8 @@ def _run_checks(synthetic_user: str) -> list[AutomatedRequirementResult]:
         "partial",
         [
             _check("Generated entry and workspace blocks have independent persistence", independent, f"After journal delete: blocks={block_after_journal_delete}, journal={journal_after_journal_delete}; after workspace clear: blocks={block_after_workspace_delete}, journal={journal_after_workspace_delete}."),
-            _source_check("src/components/ReflectionWorkspace.tsx", ["Delete saved blocks", "ConfirmDialog"]),
-            _source_check("src/components/JournalEntryPage.tsx", ["Delete journal", "ConfirmDialog"]),
+            _source_check("src/components/ReflectionWorkspace.tsx", ["Delete blocks only", "ConfirmDialog"]),
+            _source_check("src/components/JournalEntryPage.tsx", ["Delete generated entry", "ConfirmDialog"]),
         ],
         "Deletion independence and confirmation components are testable. The irreversible-deletion evaluation specifically asks what a participant believes will be removed before confirmation; automation cannot read that mental model.",
         started,
@@ -562,8 +562,8 @@ def _run_checks(synthetic_user: str) -> list[AutomatedRequirementResult]:
         "Distinct retention outcomes",
         "partial",
         [
-            _source_check("src/components/ReflectionWorkspace.tsx", ["Save blocks only", "Save nothing", "Delete saved blocks"]),
-            _source_check("src/components/JournalEntryPage.tsx", ["Export .txt", "Export .md", "Save nothing", "Delete journal", "Update journal"]),
+            _source_check("src/components/ReflectionWorkspace.tsx", ["Save blocks only", "Save nothing", "Delete blocks only", "Delete everything"]),
+            _source_check("src/components/JournalEntryPage.tsx", ["Export entry (.txt)", "Export entry (.md)", "Save nothing", "Delete generated entry", "Update journal"]),
             _check("Blocks and generated entry are stored in independent tables", independent, "Reuses the R8 persistence fixture: each saved form survived deletion of the other."),
         ],
         "Automation can verify the distinct actions exist and their stored states are independent. Table 8 asks the writer to select each option and correctly predict the resulting state; equal visibility and understanding are human-facing properties.",
