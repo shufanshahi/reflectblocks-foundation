@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 
 import { BLOCK_CATEGORIES, type RelationType } from "../lib/blockLibrary";
-import { getEvaluationSessionId } from "../lib/usability";
+import { getEvaluationSessionId, trackUsability } from "../lib/usability";
 import {
   getAIConfig,
   requestAISuggestions,
@@ -71,6 +71,7 @@ export function AISuggestionsPanel({
       setSuggestions(next);
       setConfirming(false);
       onPlaySound?.();
+      void trackUsability("suggestions_requested", reflectionId, { requirement_id: "R16", success: true, source_count: next.length });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not get AI suggestions.");
     } finally {
@@ -163,7 +164,16 @@ export function AISuggestionsPanel({
         <div className="ai-suggestion-list">
           <div className="ai-results-heading">
             <strong>Gemini ideas</strong>
-            <button type="button" className="micro-button" onClick={() => setConfirming(true)}>Refresh</button>
+            <button
+              type="button"
+              className="micro-button"
+              onClick={() => {
+                void trackUsability("suggestion_rejected", reflectionId, { requirement_id: "R16", success: true, source_count: suggestions.length });
+                setConfirming(true);
+              }}
+            >
+              Refresh
+            </button>
           </div>
           {suggestions.map((suggestion, index) => {
             const category = BLOCK_CATEGORIES.find((item) => item.id === suggestion.category) ?? BLOCK_CATEGORIES[0];
@@ -177,10 +187,13 @@ export function AISuggestionsPanel({
                 <button
                   type="button"
                   className="add-ai-block-button"
-                  onClick={() => onAddSuggestion({
-                    ...suggestion,
-                    relation_type: suggestion.relation_type as RelationType,
-                  })}
+                  onClick={() => {
+                    void trackUsability("suggestion_accepted", reflectionId, { requirement_id: "R16", success: true, category: suggestion.category });
+                    onAddSuggestion({
+                      ...suggestion,
+                      relation_type: suggestion.relation_type as RelationType,
+                    });
+                  }}
                 >
                   + Add to canvas
                 </button>

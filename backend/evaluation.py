@@ -14,7 +14,7 @@ from backend.reflections import DB_PATH
 
 router = APIRouter(prefix="/api/evaluation", tags=["evaluation"])
 
-REQUIREMENT_IDS = {f"R{i}" for i in range(1, 15)}
+REQUIREMENT_IDS = {f"R{i}" for i in range(1, 19)}
 CHECK_STATUSES = {"not_tested", "pass", "issue", "critical"}
 
 
@@ -120,6 +120,11 @@ def init_evaluation_db() -> None:
             )
             """
         )
+        # HCAI review dimensions, added alongside the original privacy/governance fields.
+        _ensure_column(connection, "evaluation_governance_reviews", "explainability_ok", "INTEGER")
+        _ensure_column(connection, "evaluation_governance_reviews", "trust_calibration_ok", "INTEGER")
+        _ensure_column(connection, "evaluation_governance_reviews", "human_control_ok", "INTEGER")
+        _ensure_column(connection, "evaluation_governance_reviews", "fairness_ok", "INTEGER")
         connection.execute(
             """
             CREATE TABLE IF NOT EXISTS evaluation_guided_tasks (
@@ -190,6 +195,10 @@ class GovernanceReviewBody(BaseModel):
     retention_ok: bool | None = None
     processing_notice_ok: bool | None = None
     prompt_wording_ok: bool | None = None
+    explainability_ok: bool | None = None
+    trust_calibration_ok: bool | None = None
+    human_control_ok: bool | None = None
+    fairness_ok: bool | None = None
     prompt_flags_count: int = Field(default=0, ge=0, le=500)
     notes: str = Field(default="", max_length=4000)
 
@@ -209,7 +218,7 @@ class EvaluationProtocolState(BaseModel):
 
 class GuidedTaskStartBody(BaseModel):
     task_id: str = Field(min_length=1, max_length=80)
-    requirement_ids: list[str] = Field(default_factory=list, max_length=14)
+    requirement_ids: list[str] = Field(default_factory=list, max_length=18)
 
 
 class GuidedRequirementResult(BaseModel):
@@ -225,7 +234,7 @@ class GuidedTaskCompleteBody(BaseModel):
     objective: dict[str, Any] = Field(default_factory=dict)
     comprehension: dict[str, Any] = Field(default_factory=dict)
     reflection_id: str | None = Field(default=None, max_length=100)
-    requirement_results: list[GuidedRequirementResult] = Field(default_factory=list, max_length=14)
+    requirement_results: list[GuidedRequirementResult] = Field(default_factory=list, max_length=18)
 
 
 class GuidedTaskRecord(BaseModel):
@@ -326,6 +335,15 @@ def _safe_evidence(evidence: dict[str, Any]) -> dict[str, Any]:
         "second_session_checked",
         "technical_check_passed",
         "reviewer_completed",
+        "connection_created",
+        "connection_labeled",
+        "suggestion_requested",
+        "suggestion_accepted",
+        "suggestion_rejected",
+        "suggestion_understood_optional",
+        "block_found",
+        "keyboard_only_completed",
+        "accessible_without_mouse",
     }
     return _primitive_dict(evidence, allowed)
 
@@ -347,6 +365,9 @@ def _safe_guided_dict(value: dict[str, Any]) -> dict[str, Any]:
         "retention_state_correct", "correct_count", "total_count",
         "help_count", "error_count", "hesitation_count", "task_success",
         "expected_behavior_correct", "source_checkpoint_answered",
+        "connection_created", "connection_labeled", "suggestion_requested",
+        "suggestion_accepted", "suggestion_rejected", "block_found",
+        "keyboard_only_completed",
     }
     return _primitive_dict(value, allowed)
 
@@ -386,6 +407,12 @@ def _row_to_governance(row: sqlite3.Row | None) -> dict[str, Any] | None:
             None if row["processing_notice_ok"] is None else bool(row["processing_notice_ok"])
         ),
         "prompt_wording_ok": None if row["prompt_wording_ok"] is None else bool(row["prompt_wording_ok"]),
+        "explainability_ok": None if row["explainability_ok"] is None else bool(row["explainability_ok"]),
+        "trust_calibration_ok": (
+            None if row["trust_calibration_ok"] is None else bool(row["trust_calibration_ok"])
+        ),
+        "human_control_ok": None if row["human_control_ok"] is None else bool(row["human_control_ok"]),
+        "fairness_ok": None if row["fairness_ok"] is None else bool(row["fairness_ok"]),
         "prompt_flags_count": row["prompt_flags_count"],
         "notes": row["notes"],
         "reviewed_at": row["reviewed_at"],
@@ -514,15 +541,20 @@ def save_governance_review(
             """
             INSERT INTO evaluation_governance_reviews (
                 session_id, reviewer_role, data_flow_ok, retention_ok,
-                processing_notice_ok, prompt_wording_ok, prompt_flags_count,
-                notes, reviewed_at
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                processing_notice_ok, prompt_wording_ok,
+                explainability_ok, trust_calibration_ok, human_control_ok, fairness_ok,
+                prompt_flags_count, notes, reviewed_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ON CONFLICT(session_id) DO UPDATE SET
                 reviewer_role = excluded.reviewer_role,
                 data_flow_ok = excluded.data_flow_ok,
                 retention_ok = excluded.retention_ok,
                 processing_notice_ok = excluded.processing_notice_ok,
                 prompt_wording_ok = excluded.prompt_wording_ok,
+                explainability_ok = excluded.explainability_ok,
+                trust_calibration_ok = excluded.trust_calibration_ok,
+                human_control_ok = excluded.human_control_ok,
+                fairness_ok = excluded.fairness_ok,
                 prompt_flags_count = excluded.prompt_flags_count,
                 notes = excluded.notes,
                 reviewed_at = excluded.reviewed_at
@@ -534,6 +566,10 @@ def save_governance_review(
                 None if body.retention_ok is None else int(body.retention_ok),
                 None if body.processing_notice_ok is None else int(body.processing_notice_ok),
                 None if body.prompt_wording_ok is None else int(body.prompt_wording_ok),
+                None if body.explainability_ok is None else int(body.explainability_ok),
+                None if body.trust_calibration_ok is None else int(body.trust_calibration_ok),
+                None if body.human_control_ok is None else int(body.human_control_ok),
+                None if body.fairness_ok is None else int(body.fairness_ok),
                 body.prompt_flags_count,
                 body.notes.strip(),
                 int(time.time()),

@@ -72,6 +72,10 @@ export type EvaluationGovernanceReview = {
   retention_ok: boolean | null;
   processing_notice_ok: boolean | null;
   prompt_wording_ok: boolean | null;
+  explainability_ok: boolean | null;
+  trust_calibration_ok: boolean | null;
+  human_control_ok: boolean | null;
+  fairness_ok: boolean | null;
   prompt_flags_count: number;
   notes: string;
   reviewed_at: number;

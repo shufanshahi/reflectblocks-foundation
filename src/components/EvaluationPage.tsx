@@ -223,6 +223,54 @@ const REQUIREMENTS: RequirementProtocol[] = [
       { key: "predicted_correctly", label: "Correctly predicted resulting state across retention choices" },
     ],
   },
+  {
+    id: "R15",
+    title: "Connect blocks with a labeled relationship",
+    method: "Walkthrough task: add two blocks, connect them, and label the connection.",
+    procedure: "Ask the participant to add two blocks, draw a connection between them from a connector dot, and choose or type a relationship label.",
+    decision: "Revise the connector or label control if a participant cannot find or use it without moderator instruction.",
+    fields: [
+      { key: "connection_created", label: "Created a connection between two blocks" },
+      { key: "connection_labeled", label: "Set a relationship label on the connection" },
+      { key: "without_help", label: "Completed without moderator instruction" },
+    ],
+  },
+  {
+    id: "R16",
+    title: "AI suggestions are understood as optional",
+    method: "Walkthrough task: open suggestions, accept one, reject another.",
+    procedure: "Ask the participant to open AI suggestions, accept one suggested block, and dismiss another without adding it. Ask whether they felt required to use a suggestion.",
+    decision: "Revise the panel if a participant believes a suggestion must be accepted, or cannot tell a suggestion apart from their own writing once added.",
+    fields: [
+      { key: "suggestion_requested", label: "Opened the suggestions panel" },
+      { key: "suggestion_accepted", label: "Accepted one suggestion" },
+      { key: "suggestion_rejected", label: "Dismissed a suggestion without adding it" },
+      { key: "suggestion_understood_optional", label: "Understood suggestions are optional" },
+    ],
+  },
+  {
+    id: "R17",
+    title: "Blocks remain findable on the canvas",
+    method: "Walkthrough task: locate a block placed off-screen.",
+    procedure: "Place a block far from the current view before the task. Ask the participant to find and select it using pan and/or zoom, without telling them which control to use.",
+    decision: "Revise pan/zoom affordances if a participant cannot locate an off-screen block without moderator instruction.",
+    fields: [
+      { key: "block_found", label: "Located and selected the target block" },
+      { key: "without_help", label: "Completed without moderator instruction" },
+      { key: "duration_ms", label: "Time to locate", type: "number", suffix: "ms" },
+    ],
+  },
+  {
+    id: "R18",
+    title: "Core capture is usable without a mouse",
+    method: "Walkthrough task: repeat quick-capture using only the keyboard.",
+    procedure: "Ask the participant to capture and save a quick thought using only the keyboard (tab/enter, or screen reader if available). Moderator observes focus order and whether every control has a clear spoken/visible label.",
+    decision: "Revise focus order or missing labels if the participant cannot complete capture without a mouse.",
+    fields: [
+      { key: "keyboard_only_completed", label: "Completed capture using only the keyboard" },
+      { key: "without_help", label: "Completed without moderator instruction" },
+    ],
+  },
 ];
 
 const TASK_GROUPS = [
@@ -231,7 +279,12 @@ const TASK_GROUPS = [
   ["Task 3 · Generation boundary", "R4, R7, R10", "Explicit source selection, prediction question before generation, and comprehension questions after the processing notice."],
   ["Task 4 · Source + editing", "R5, R12", "Prepared draft with deliberately unsuitable wording; test source identification, writer-vs-system distinction, editing, save, and reopen."],
   ["Task 5 · Retention + deletion", "R8, R14", "Save/export/save-nothing/delete walkthrough followed by questions about the resulting state after each choice."],
+  ["Task 6 · Canvas connections", "R15", "Add two blocks, connect them, and label the relationship."],
+  ["Task 7 · AI suggestions", "R16", "Open suggestions, accept one, reject another; check it is understood as optional."],
+  ["Task 8 · Findability", "R17", "Locate and select a block placed off-screen using pan/zoom."],
+  ["Task 9 · Keyboard-only", "R18", "Repeat quick-capture using only the keyboard; observe focus order and labels."],
   ["Parallel governance review", "R7, R8, R10, R11", "Privacy/domain reviewer checks data flow, retention, processing notice, and prompt wording separately from participant tasks."],
+  ["Parallel HCAI review", "R16", "Reviewer checks explainability, trust calibration, human control, and fairness of AI suggestions."],
 ] as const;
 
 type CheckDraft = {
@@ -299,6 +352,10 @@ export function EvaluationPage({ onBack, onStartTasks }: EvaluationPageProps) {
     retention_ok: null,
     processing_notice_ok: null,
     prompt_wording_ok: null,
+    explainability_ok: null,
+    trust_calibration_ok: null,
+    human_control_ok: null,
+    fairness_ok: null,
     prompt_flags_count: 0,
     notes: "",
   });
@@ -377,6 +434,28 @@ export function EvaluationPage({ onBack, onStartTasks }: EvaluationPageProps) {
           next.R9 = {
             ...next.R9,
             evidence: { ...next.R9.evidence, age_45_plus: true },
+          };
+        }
+        const eventTypes = new Set(exported.events.map((event) => event.event_type));
+        if (eventTypes.has("connection_created") || eventTypes.has("connection_labeled")) {
+          next.R15 = {
+            ...next.R15,
+            evidence: {
+              ...next.R15.evidence,
+              connection_created: eventTypes.has("connection_created"),
+              connection_labeled: eventTypes.has("connection_labeled"),
+            },
+          };
+        }
+        if (eventTypes.has("suggestions_requested") || eventTypes.has("suggestion_accepted") || eventTypes.has("suggestion_rejected")) {
+          next.R16 = {
+            ...next.R16,
+            evidence: {
+              ...next.R16.evidence,
+              suggestion_requested: eventTypes.has("suggestions_requested"),
+              suggestion_accepted: eventTypes.has("suggestion_accepted"),
+              suggestion_rejected: eventTypes.has("suggestion_rejected"),
+            },
           };
         }
         setChecks(next);
@@ -802,7 +881,7 @@ export function EvaluationPage({ onBack, onStartTasks }: EvaluationPageProps) {
       <div className="evaluation-card governance-card">
         <p className="eyebrow">Parallel stakeholder review · R7, R8, R10, R11</p>
         <h2>Governance review</h2>
-        <p>This is separate from the writer-facing walkthrough. A privacy or domain reviewer should inspect the production data-flow design, retention/deletion rules, processing notice, and all prompt wording.</p>
+        <p>This is separate from the writer-facing walkthrough. A privacy or domain reviewer should inspect the production data-flow design, retention/deletion rules, processing notice, and all prompt wording. The HCAI rows below cover the AI-suggestion feature specifically, since it is not otherwise reviewed by anyone.</p>
         <label>
           <span>Reviewer role</span>
           <input value={governance.reviewer_role} onChange={(event) => { setGovernance({ ...governance, reviewer_role: event.target.value }); setGovernanceSaved(false); }} placeholder="e.g. privacy reviewer / counselling-domain reviewer" />
@@ -813,6 +892,10 @@ export function EvaluationPage({ onBack, onStartTasks }: EvaluationPageProps) {
             ["retention_ok", "R8 retention/deletion scope is clear and technically consistent"],
             ["processing_notice_ok", "R10 notice truthfully explains what, who, why, and retention"],
             ["prompt_wording_ok", "R11 prompt wording has no unresolved harmful/clinical-sounding phrasing"],
+            ["explainability_ok", "HCAI: participants could say why a suggestion appeared"],
+            ["trust_calibration_ok", "HCAI: participants checked/edited AI text rather than accepting it blindly"],
+            ["human_control_ok", "HCAI: AI suggestions can always be ignored, dismissed, or turned off"],
+            ["fairness_ok", "HCAI: prompts/categories showed no bias toward one group of users"],
           ].map(([key, label]) => (
             <label key={key}>
               <span>{label}</span>

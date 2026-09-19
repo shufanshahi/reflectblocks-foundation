@@ -384,13 +384,16 @@ export function ReflectionWorkspace({ reflectionId, onBack, onOpenJournal, onOpe
     setSelectedBlockId(null);
     markChanged();
     playSound("connect");
-    void trackUsability("connection_created", reflectionId, { relation_type: relationType, connection_count: connections.length + 1 });
+    void trackUsability("connection_created", reflectionId, { relation_type: relationType, connection_count: connections.length + 1, requirement_id: "R15" });
   }, [connections, markChanged, playSound, reflectionId]);
 
   const changeConnection = useCallback((id: string, patch: Partial<SavedConnection>) => {
     setConnections((current) => current.map((connection) => connection.id === id ? { ...connection, ...patch } : connection));
     markChanged();
-  }, [markChanged]);
+    if ("relation_label" in patch && patch.relation_label) {
+      void trackUsability("connection_labeled", reflectionId, { relation_type: patch.relation_type ?? "custom", requirement_id: "R15" });
+    }
+  }, [markChanged, reflectionId]);
 
   const reverseConnection = useCallback((id: string) => {
     setConnections((current) => current.map((connection) => {
