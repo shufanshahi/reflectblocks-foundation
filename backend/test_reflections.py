@@ -260,5 +260,119 @@ class DrawioReflectionMilestoneTests(unittest.TestCase):
         self.assertEqual(response.json()["paragraphs"][0]["source_block_ids"], ["situation-instance"])
 
 
+    def _run_journal_request_capturing_gemini_payload(self, reflection_id: str, payload: dict) -> tuple[object, list[dict]]:
+        """Call the real journal endpoint with a fake Gemini SDK and record exactly what would be sent."""
+        sent: list[dict] = []
+        ai = self.ai
+
+        class FakeModels:
+            def generate_content(self, *, model, contents, config):
+                sent.append({"model": model, "contents": contents})
+                return type("Response", (), {
+                    "parsed": ai.JournalBundle(
+                        title="Presentation reflection",
+                        paragraphs=[ai.JournalParagraph(
+                            id="p1",
+                            text="I presented my project.",
+                            source_block_ids=["situation-instance"],
+                        )],
+                    ),
+                    "text": "",
+                })()
+
+        class FakeClient:
+            def __init__(self, api_key):
+                self.models = FakeModels()
+
+        fake_genai = type("FakeGenai", (), {"Client": FakeClient})
+        fake_types = type("FakeTypes", (), {"GenerateContentConfig": lambda **kwargs: kwargs})
+
+        with patch.object(
+            ai,
+            "_runtime_settings",
+            return_value=("secret-test-key", "gemini-3.1-flash-lite", "gemini-3.8-flash", "test"),
+        ), patch.object(ai, "_import_genai", return_value=(fake_genai, fake_types)):
+            response = self.client.post(f"/api/ai/reflections/{reflection_id}/journal", json=payload)
+        return response, sent
+
+    def test_gemini_payload_contains_only_selected_blocks(self) -> None:
+        """R7/R10: verify the text handed to the Gemini SDK, not just the intermediate context."""
+        self.login("user-a", "a@example.com")
+        # A previous entry with distinctive text that must never reach the provider.
+        self.create_reflection("PREVIOUS-ENTRY-SECRET about my old job")
+        reflection_id = self.create_reflection("UNSELECTED-QUICK-THOUGHT")
+        all_blocks = self.blocks()
+        selected = all_blocks[0]
+        unselected = all_blocks[1:]
+
+        connections = [
+            {
+                "id": "conn-selected-unselected",
+                "source_block_id": "situation-instance",
+                "target_block_id": "feelings-instance",
+                "relation_type": "led_to",
+                "relation_label": "LEAKY-RELATION-LABEL",
+            }
+        ]
+
+        response, sent = self._run_journal_request_capturing_gemini_payload(
+            reflection_id,
+            {"include_quick_thought": False, "blocks": [selected], "connections": connections},
+        )
+
+        self.assertEqual(response.status_code, 200, response.text)
+        self.assertEqual(len(sent), 1)
+        contents = sent[0]["contents"]
+
+        self.assertIn(selected["answer"], contents)
+        self.assertIn(selected["question"], contents)
+        for block in unselected:
+            self.assertNotIn(block["answer"], contents)
+            self.assertNotIn(block["question"], contents)
+            self.assertNotIn(block["id"], contents)
+        self.assertNotIn("UNSELECTED-QUICK-THOUGHT", contents)
+        self.assertNotIn("PREVIOUS-ENTRY-SECRET", contents)
+        self.assertNotIn("LEAKY-RELATION-LABEL", contents)
+        self.assertNotIn("a@example.com", contents)
+        self.assertNotIn("secret-test-key", contents)
+
+    def test_gemini_payload_includes_quick_thought_only_when_selected(self) -> None:
+        self.login("user-a", "a@example.com")
+        reflection_id = self.create_reflection("OPT-IN-QUICK-THOUGHT")
+        selected = self.blocks()[0]
+
+        for include, expect in ((False, False), (True, True)):
+            response, sent = self._run_journal_request_capturing_gemini_payload(
+                reflection_id,
+                {"include_quick_thought": include, "blocks": [selected], "connections": []},
+            )
+            self.assertEqual(response.status_code, 200, response.text)
+            self.assertEqual("OPT-IN-QUICK-THOUGHT" in sent[0]["contents"], expect)
+
+    def test_gemini_payload_includes_selected_connections_between_selected_blocks(self) -> None:
+        self.login("user-a", "a@example.com")
+        reflection_id = self.create_reflection()
+        first, second = self.blocks()[:2]
+        response, sent = self._run_journal_request_capturing_gemini_payload(
+            reflection_id,
+            {
+                "include_quick_thought": False,
+                "blocks": [first, second],
+                "connections": [
+                    {
+                        "id": "c1",
+                        "source_block_id": first["id"],
+                        "target_block_id": second["id"],
+                        "relation_type": "made_me_feel",
+                        "relation_label": "made me feel",
+                    }
+                ],
+            },
+        )
+        self.assertEqual(response.status_code, 200, response.text)
+        self.assertIn("made me feel", sent[0]["contents"])
+        self.assertNotIn(self.blocks()[2]["answer"], sent[0]["contents"])
+
+
 if __name__ == "__main__":
     unittest.main()

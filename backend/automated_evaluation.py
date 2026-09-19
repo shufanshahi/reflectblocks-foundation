@@ -335,7 +335,7 @@ def _run_checks(synthetic_user: str) -> list[AutomatedRequirementResult]:
         "partial",
         [
             _check("Saving/filling blocks does not create a generated entry", generated_before == 0, f"Generated-entry count after workspace save: {generated_before}."),
-            _source_check("src/components/JournalGeneratorPanel.tsx", ["Review privacy →", "Confirm & generate", 'type Stage = "closed" | "select" | "confirm" | "generating" | "draft"']),
+            _source_check("src/components/JournalGeneratorPanel.tsx", ["Review privacy →", "Organize my entry", 'type Stage = "closed" | "select" | "confirm" | "generating" | "draft"']),
         ],
         "The technical boundary can be checked automatically, but Table 8 also asks whether a participant believes generation happened before the explicit action. That belief cannot be inferred from program state alone.",
         started,
@@ -413,7 +413,7 @@ def _run_checks(synthetic_user: str) -> list[AutomatedRequirementResult]:
         "partial",
         [
             _check("Provider context excludes unselected blocks, unselected quick thought, and edges to unselected blocks", selected_only, "Built the real provider-boundary context from one selected block while another saved block existed."),
-            _source_check("src/components/JournalGeneratorPanel.tsx", ["Unchecked blocks", "Other saved reflections", "selectedBlocks", "selectedConnections"]),
+            _source_check("src/components/JournalGeneratorPanel.tsx", ["Unchecked blocks", "Previous entries and other saved reflections", "selectedBlocks", "selectedConnections"]),
         ],
         "The selected-only provider payload is directly testable and this audit never calls Gemini. Table 8 additionally calls for a team/privacy data-flow review and participant understanding of the selection model; those require human review.",
         started,
@@ -483,7 +483,7 @@ def _run_checks(synthetic_user: str) -> list[AutomatedRequirementResult]:
         "Plain-language processing notice",
         "partial",
         [
-            _source_check("src/components/JournalGeneratorPanel.tsx", ["Privacy confirmation", "Will be sent to Gemini", "Will not be sent", "selected block answer", "Unchecked blocks", "Other saved reflections", "Journal model:"]),
+            _source_check("src/components/JournalGeneratorPanel.tsx", ["Privacy confirmation", "Will be sent to Gemini", "Will not be sent", "selected block answer", "Unchecked blocks", "Previous entries and other saved reflections", "Journal model:"]),
         ],
         "Automation can verify that the notice contains the expected disclosure elements and appears in the explicit confirmation stage. The paper specifically requires participants to explain the notice in their own words; comprehension cannot be inferred from the notice merely existing.",
         started,

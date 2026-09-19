@@ -303,10 +303,12 @@ export async function requestJournalDraft(
   selectedBlocks: SavedBlock[],
   selectedConnections: SavedConnection[],
   includeQuickThought: boolean,
+  signal?: AbortSignal,
 ): Promise<JournalDraft> {
   const response = await fetch(`/api/ai/reflections/${encodeURIComponent(reflectionId)}/journal`, {
     method: "POST",
     credentials: "include",
+    signal,
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       include_quick_thought: includeQuickThought,
