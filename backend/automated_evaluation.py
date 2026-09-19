@@ -277,7 +277,7 @@ def _run_checks(synthetic_user: str) -> list[AutomatedRequirementResult]:
         "partial",
         [
             _check("A single block can be removed without deleting the reflection", len(after_remove.blocks) == 1 and after_remove.blocks[0].id == "r2-a", "Workspace snapshot retained the other block after removing the fixture block."),
-            _source_check("src/components/ReflectionBlock.tsx", ["title=\"Remove block\"", "onRemove(block.id)"]),
+            _source_check("src/components/ReflectionBlock.tsx", ["Skip this prompt", "onRemove(block.id)"]),
         ],
         "Automation can verify that the dismiss control and data operation exist. It cannot establish that a person understands prompts are optional or can find the dismiss action without moderator help.",
         started,

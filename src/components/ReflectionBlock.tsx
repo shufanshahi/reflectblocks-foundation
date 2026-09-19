@@ -44,6 +44,7 @@ export function ReflectionBlock({
 }: ReflectionBlockProps) {
   const category = useMemo(() => getCategory(block.category), [block.category]);
   const [editingQuestion, setEditingQuestion] = useState(false);
+  const answered = Boolean(block.answer.trim());
 
   return (
     <article
@@ -106,16 +107,16 @@ export function ReflectionBlock({
           </button>
           <button
             type="button"
-            className="tiny-icon-button danger"
+            className="dismiss-prompt-button"
             onPointerDown={(event) => event.stopPropagation()}
             onClick={(event) => {
               event.stopPropagation();
               onRemove(block.id);
             }}
-            aria-label={`Remove ${block.question}`}
-            title="Remove block"
+            aria-label={`${answered ? "Remove" : "Skip"} prompt: ${block.question}`}
+            title={answered ? "Remove this block and its answer" : "Skip this prompt. You can undo right after."}
           >
-            ×
+            {answered ? "Remove ✕" : "Skip ✕"}
           </button>
         </div>
       </header>
@@ -160,7 +161,7 @@ export function ReflectionBlock({
           value={block.answer}
           onFocus={() => onSelect(block.id)}
           onChange={(event) => onAnswerChange(block.id, event.target.value)}
-          placeholder="Write a short answer…"
+          placeholder="Optional. Write a short answer, or skip this prompt."
           rows={3}
           maxLength={5000}
         />

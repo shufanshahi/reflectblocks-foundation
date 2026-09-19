@@ -145,6 +145,7 @@ export function ReflectionWorkspace({ reflectionId, onBack, onOpenJournal, onOpe
   const [confirmClearBlocks, setConfirmClearBlocks] = useState(false);
   const [confirmDeleteReflection, setConfirmDeleteReflection] = useState(false);
   const [confirmLeave, setConfirmLeave] = useState(false);
+  const [dismissedBlock, setDismissedBlock] = useState<{ block: SavedBlock; connections: SavedConnection[] } | null>(null);
   const [retentionTick, setRetentionTick] = useState(0);
   const recoveryStorageKey = useMemo(() => recoveryKey("workspace", reflectionId), [reflectionId]);
 
@@ -273,6 +274,8 @@ export function ReflectionWorkspace({ reflectionId, onBack, onOpenJournal, onOpe
   }, [blocks.length, markChanged, playSound, reflectionId, viewCenterWorld]);
 
   const addAISuggestion = useCallback((suggestion: AISuggestion) => {
+    const normalizedQuestion = suggestion.question.trim().toLowerCase();
+    if (blocks.some((block) => block.question.trim().toLowerCase() === normalizedQuestion)) return;
     const category = BLOCK_CATEGORIES.some((item) => item.id === suggestion.category) ? suggestion.category : "situation";
     const source = suggestion.connect_from_block_id
       ? blocks.find((block) => block.id === suggestion.connect_from_block_id)
@@ -348,6 +351,15 @@ export function ReflectionWorkspace({ reflectionId, onBack, onOpenJournal, onOpe
   }, [markChanged, reflectionId]);
 
   const removeBlock = useCallback((id: string) => {
+    const removed = blocks.find((block) => block.id === id);
+    if (removed) {
+      setDismissedBlock({
+        block: removed,
+        connections: connections.filter(
+          (connection) => connection.source_block_id === id || connection.target_block_id === id,
+        ),
+      });
+    }
     setBlocks((current) => normalizeOrder(current.filter((block) => block.id !== id)));
     setConnections((current) => current.filter(
       (connection) => connection.source_block_id !== id && connection.target_block_id !== id,
@@ -356,8 +368,28 @@ export function ReflectionWorkspace({ reflectionId, onBack, onOpenJournal, onOpe
     setSelectedConnectionId(null);
     markChanged();
     playSound("disconnect");
-    void trackUsability("block_dismissed", reflectionId, { requirement_id: "R2", success: true });
-  }, [markChanged, playSound, reflectionId]);
+    void trackUsability("block_dismissed", reflectionId, {
+      requirement_id: "R2",
+      success: true,
+      was_answered: Boolean(removed?.answer.trim()),
+    });
+  }, [blocks, connections, markChanged, playSound, reflectionId]);
+
+  const undoDismiss = useCallback(() => {
+    if (!dismissedBlock) return;
+    setBlocks((current) => (
+      current.some((block) => block.id === dismissedBlock.block.id)
+        ? current
+        : normalizeOrder([...current, dismissedBlock.block].sort((a, b) => a.order_index - b.order_index))
+    ));
+    setConnections((current) => [
+      ...current,
+      ...dismissedBlock.connections.filter((item) => !current.some((existing) => existing.id === item.id)),
+    ]);
+    setDismissedBlock(null);
+    markChanged();
+    void trackUsability("block_dismiss_undone", reflectionId, { requirement_id: "R2", success: true });
+  }, [dismissedBlock, markChanged, reflectionId]);
 
   const connectBlocks = useCallback((
     sourceId: string,
@@ -640,6 +672,12 @@ export function ReflectionWorkspace({ reflectionId, onBack, onOpenJournal, onOpe
     }
   }
 
+  useEffect(() => {
+    if (!dismissedBlock) return;
+    const timeout = window.setTimeout(() => setDismissedBlock(null), 10000);
+    return () => window.clearTimeout(timeout);
+  }, [dismissedBlock]);
+
   function requestLeave() {
     if (dirty) setConfirmLeave(true);
     else onBack();
@@ -720,6 +758,13 @@ export function ReflectionWorkspace({ reflectionId, onBack, onOpenJournal, onOpe
 
       <RetentionStatus reflectionId={reflectionId} refreshKey={retentionTick} />
 
+      {dismissedBlock ? (
+        <div className="dismiss-undo-bar" role="status">
+          <span>Prompt skipped: “{dismissedBlock.block.question}”</span>
+          <button type="button" className="micro-button" onClick={undoDismiss}>Undo</button>
+        </div>
+      ) : null}
+
       {error ? <p className="error workspace-error" role="alert">{error}</p> : null}
 
       <JournalGeneratorPanel
@@ -738,6 +783,7 @@ export function ReflectionWorkspace({ reflectionId, onBack, onOpenJournal, onOpe
           selectedBlock={selectedBlock}
           onAdd={addLibraryBlock}
           onAddCustom={addCustomBlock}
+          onOpenFreeWriting={onOpenFreeWriting}
           aiPanel={(
             <AISuggestionsPanel
               reflectionId={reflectionId}
@@ -754,7 +800,7 @@ export function ReflectionWorkspace({ reflectionId, onBack, onOpenJournal, onOpe
             <div className="whiteboard-heading-copy">
               <p className="eyebrow">Reflection map</p>
               <h2>Connect ideas the way they relate in your head.</h2>
-              <p>Move blocks by dragging their header. Drag from any connector dot to any other block to create an arrow.</p>
+              <p>Every prompt is optional. Answer the ones that fit, skip the ones that do not, or write freely without prompts. Move blocks by dragging their header. Drag from any connector dot to any other block to create an arrow.</p>
             </div>
             <ConnectionInspector
               selectedConnection={selectedConnection}
