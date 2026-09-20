@@ -27,11 +27,12 @@
   <!-- ===== Dashed flow loop ===== -->
   <path d="M110 350 V322 H1385 V412 H110 V404" fill="none" stroke="#8fc0dc" stroke-width="1.6" stroke-dasharray="6 5" stroke-linecap="round"/>
   <g fill="none" stroke="#8fc0dc" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M470 322 h8" marker-end="url(#flow)"/>
+    <path d="M640 322 h8" marker-end="url(#flow)"/>
     <path d="M1180 322 h8" marker-end="url(#flow)"/>
     <path d="M1385 362 v8" marker-end="url(#flow)"/>
-    <path d="M1040 412 h-8" marker-end="url(#flow)"/>
-    <path d="M420 412 h-8" marker-end="url(#flow)"/>
+    <path d="M1240 412 h-8" marker-end="url(#flow)"/>
+    <path d="M675 412 h-8" marker-end="url(#flow)"/>
+    <path d="M190 412 h-8" marker-end="url(#flow)"/>
     <path d="M110 412 v-6" marker-end="url(#flow)"/>
   </g>
   <g>
