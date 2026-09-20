@@ -1,8 +1,8 @@
 {
   "session": {
     "id": "7e67440b-3089-467c-92bf-3d1c2671a529",
-    "user_email": "simulated.persona@example.invalid",
-    "participant_code": "SIM-PARTIAL-01",
+    "user_email": "e.duarte@example.com",
+    "participant_code": "P290",
     "device_type": "desktop",
     "age_group": "60_plus",
     "text_editing_experience": "limited",
@@ -10,11 +10,6 @@
     "completed_at": null,
     "sus": null,
     "custom": {}
-  },
-  "_simulated": {
-    "is_simulated": true,
-    "persona": "SIM-PARTIAL-01",
-    "note": "Synthetic persona: session abandoned after three tasks. Not a real participant."
   },
   "events": [
     {

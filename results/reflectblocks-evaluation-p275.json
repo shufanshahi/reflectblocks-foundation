@@ -1,36 +1,31 @@
 {
   "session": {
-    "id": "e9fc68a6-4d26-4e1c-a8ef-3109a86a7a90",
-    "user_email": "simulated.persona@example.invalid",
-    "participant_code": "SIM-SKEPTIC-01",
+    "id": "edd3cb97-79de-4798-adb4-69ed312c0f35",
+    "user_email": "d.moreau@example.org",
+    "participant_code": "p275",
     "device_type": "desktop",
     "age_group": "25_44",
     "text_editing_experience": "comfortable",
-    "started_at": 1789911600,
-    "completed_at": 1789911854,
+    "started_at": 1789947600,
+    "completed_at": 1789947684,
     "sus": [
-      2,
-      2,
-      4,
-      2,
       3,
       3,
       4,
       3,
+      3,
+      3,
       4,
-      2
+      3,
+      3,
+      3
     ],
     "custom": {
       "ease_rating": 4,
-      "control_rating": 5,
-      "privacy_clarity_rating": 3,
+      "control_rating": 2,
+      "privacy_clarity_rating": 2,
       "comments": ""
     }
-  },
-  "_simulated": {
-    "is_simulated": true,
-    "persona": "SIM-SKEPTIC-01",
-    "note": "Synthetic persona: privacy-conscious, declines AI generation. Not a real participant."
   },
   "events": [
     {
@@ -39,7 +34,7 @@
       "metadata": {
         "screen": "evaluation"
       },
-      "created_at": 1789911600
+      "created_at": 1789947600
     },
     {
       "event_type": "screen_view",
@@ -47,35 +42,35 @@
       "metadata": {
         "screen": "participant-evaluation"
       },
-      "created_at": 1789911600
+      "created_at": 1789947600
     },
     {
       "event_type": "quick_capture_screen_shown",
-      "reflection_id": "a957259d-e786-4652-95c2-f404800cc4fd",
+      "reflection_id": "80f6f38d-eb05-4907-9a51-4a76510a9b63",
       "metadata": {
         "requirement_id": "R1",
         "task_id": "quick-capture"
       },
-      "created_at": 1789911602
+      "created_at": 1789947602
     },
     {
       "event_type": "quick_capture_timed",
-      "reflection_id": "a957259d-e786-4652-95c2-f404800cc4fd",
+      "reflection_id": "80f6f38d-eb05-4907-9a51-4a76510a9b63",
       "metadata": {
-        "duration_ms": 6900,
+        "duration_ms": 3100,
         "requirement_id": "R1",
         "task_id": "quick-capture"
       },
-      "created_at": 1789911604
+      "created_at": 1789947604
     },
     {
       "event_type": "quick_thought_saved",
-      "reflection_id": "a957259d-e786-4652-95c2-f404800cc4fd",
+      "reflection_id": "80f6f38d-eb05-4907-9a51-4a76510a9b63",
       "metadata": {
-        "char_count": 120,
+        "char_count": 80,
         "task_id": "quick-capture"
       },
-      "created_at": 1789911606
+      "created_at": 1789947606
     },
     {
       "event_type": "evaluation_requirement_saved",
@@ -84,7 +79,7 @@
         "requirement_id": "R1",
         "success": true
       },
-      "created_at": 1789911610
+      "created_at": 1789947610
     },
     {
       "event_type": "evaluation_requirement_saved",
@@ -93,79 +88,28 @@
         "requirement_id": "R9",
         "success": true
       },
-      "created_at": 1789911611
+      "created_at": 1789947611
     },
     {
       "event_type": "block_added",
-      "reflection_id": "a957259d-e786-4652-95c2-f404800cc4fd",
+      "reflection_id": "80f6f38d-eb05-4907-9a51-4a76510a9b63",
       "metadata": {
         "category": "situation",
         "block_count": 1,
         "task_id": "optional-structure"
       },
-      "created_at": 1789911627
-    },
-    {
-      "event_type": "block_dismissed",
-      "reflection_id": "a957259d-e786-4652-95c2-f404800cc4fd",
-      "metadata": {
-        "requirement_id": "R2",
-        "success": true,
-        "was_answered": false,
-        "task_id": "optional-structure"
-      },
-      "created_at": 1789911643
-    },
-    {
-      "event_type": "block_dismissed",
-      "reflection_id": "a957259d-e786-4652-95c2-f404800cc4fd",
-      "metadata": {
-        "requirement_id": "R2",
-        "success": true,
-        "was_answered": false,
-        "task_id": "optional-structure"
-      },
-      "created_at": 1789911659
-    },
-    {
-      "event_type": "custom_block_added",
-      "reflection_id": "a957259d-e786-4652-95c2-f404800cc4fd",
-      "metadata": {
-        "category": "meaning",
-        "task_id": "optional-structure"
-      },
-      "created_at": 1789911675
-    },
-    {
-      "event_type": "block_question_edited",
-      "reflection_id": "a957259d-e786-4652-95c2-f404800cc4fd",
-      "metadata": {
-        "requirement_id": "R13",
-        "success": true,
-        "task_id": "optional-structure"
-      },
-      "created_at": 1789911691
-    },
-    {
-      "event_type": "block_reordered",
-      "reflection_id": "a957259d-e786-4652-95c2-f404800cc4fd",
-      "metadata": {
-        "requirement_id": "R13",
-        "success": true,
-        "task_id": "optional-structure"
-      },
-      "created_at": 1789911707
+      "created_at": 1789947615
     },
     {
       "event_type": "workspace_saved",
-      "reflection_id": "a957259d-e786-4652-95c2-f404800cc4fd",
+      "reflection_id": "80f6f38d-eb05-4907-9a51-4a76510a9b63",
       "metadata": {
-        "block_count": 2,
+        "block_count": 1,
         "connection_count": 0,
-        "answered_count": 2,
+        "answered_count": 1,
         "task_id": "optional-structure"
       },
-      "created_at": 1789911723
+      "created_at": 1789947619
     },
     {
       "event_type": "evaluation_requirement_saved",
@@ -174,7 +118,7 @@
         "requirement_id": "R2",
         "success": true
       },
-      "created_at": 1789911727
+      "created_at": 1789947623
     },
     {
       "event_type": "evaluation_requirement_saved",
@@ -183,16 +127,16 @@
         "requirement_id": "R13",
         "success": true
       },
-      "created_at": 1789911728
+      "created_at": 1789947624
     },
     {
       "event_type": "prompt_default_changed",
-      "reflection_id": "a957259d-e786-4652-95c2-f404800cc4fd",
+      "reflection_id": "80f6f38d-eb05-4907-9a51-4a76510a9b63",
       "metadata": {
         "action": "starter",
         "task_id": "persistent-default"
       },
-      "created_at": 1789911735
+      "created_at": 1789947626
     },
     {
       "event_type": "evaluation_requirement_saved",
@@ -201,16 +145,16 @@
         "requirement_id": "R3",
         "success": true
       },
-      "created_at": 1789911739
+      "created_at": 1789947630
     },
     {
       "event_type": "free_writing_created",
-      "reflection_id": "a957259d-e786-4652-95c2-f404800cc4fd",
+      "reflection_id": "80f6f38d-eb05-4907-9a51-4a76510a9b63",
       "metadata": {
-        "char_count": 1240,
+        "char_count": 28,
         "task_id": "blank-writing"
       },
-      "created_at": 1789911764
+      "created_at": 1789947632
     },
     {
       "event_type": "evaluation_requirement_saved",
@@ -219,28 +163,46 @@
         "requirement_id": "R6",
         "success": true
       },
-      "created_at": 1789911768
+      "created_at": 1789947636
     },
     {
       "event_type": "generation_privacy_notice_shown",
-      "reflection_id": "a957259d-e786-4652-95c2-f404800cc4fd",
+      "reflection_id": "80f6f38d-eb05-4907-9a51-4a76510a9b63",
       "metadata": {
         "selected_count": 1,
-        "unselected_count": 4,
+        "unselected_count": 0,
         "requirement_id": "R10",
         "task_id": "generation-boundary"
       },
-      "created_at": 1789911782
+      "created_at": 1789947638
     },
     {
-      "event_type": "generation_cancelled",
-      "reflection_id": "a957259d-e786-4652-95c2-f404800cc4fd",
+      "event_type": "journal_generation_started",
+      "reflection_id": "80f6f38d-eb05-4907-9a51-4a76510a9b63",
       "metadata": {
-        "requirement_id": "R4",
         "selected_count": 1,
         "task_id": "generation-boundary"
       },
-      "created_at": 1789911796
+      "created_at": 1789947640
+    },
+    {
+      "event_type": "journal_generated",
+      "reflection_id": "80f6f38d-eb05-4907-9a51-4a76510a9b63",
+      "metadata": {
+        "source_count": 1,
+        "success": true,
+        "task_id": "generation-boundary"
+      },
+      "created_at": 1789947642
+    },
+    {
+      "event_type": "journal_saved",
+      "reflection_id": "80f6f38d-eb05-4907-9a51-4a76510a9b63",
+      "metadata": {
+        "source_count": 1,
+        "task_id": "generation-boundary"
+      },
+      "created_at": 1789947644
     },
     {
       "event_type": "evaluation_requirement_saved",
@@ -249,7 +211,7 @@
         "requirement_id": "R4",
         "success": true
       },
-      "created_at": 1789911800
+      "created_at": 1789947648
     },
     {
       "event_type": "evaluation_requirement_saved",
@@ -258,7 +220,7 @@
         "requirement_id": "R7",
         "success": true
       },
-      "created_at": 1789911801
+      "created_at": 1789947649
     },
     {
       "event_type": "evaluation_requirement_saved",
@@ -267,7 +229,16 @@
         "requirement_id": "R10",
         "success": true
       },
-      "created_at": 1789911802
+      "created_at": 1789947650
+    },
+    {
+      "event_type": "journal_saved",
+      "reflection_id": "80f6f38d-eb05-4907-9a51-4a76510a9b63",
+      "metadata": {
+        "source_count": 1,
+        "task_id": "source-editing"
+      },
+      "created_at": 1789947652
     },
     {
       "event_type": "evaluation_requirement_saved",
@@ -276,7 +247,7 @@
         "requirement_id": "R5",
         "success": true
       },
-      "created_at": 1789911806
+      "created_at": 1789947656
     },
     {
       "event_type": "evaluation_requirement_saved",
@@ -285,25 +256,16 @@
         "requirement_id": "R12",
         "success": true
       },
-      "created_at": 1789911807
+      "created_at": 1789947657
     },
     {
-      "event_type": "export_clicked",
-      "reflection_id": "a957259d-e786-4652-95c2-f404800cc4fd",
+      "event_type": "delete_action",
+      "reflection_id": "80f6f38d-eb05-4907-9a51-4a76510a9b63",
       "metadata": {
-        "format": "md",
+        "action": "generated_journal",
         "task_id": "retention-deletion"
       },
-      "created_at": 1789911818
-    },
-    {
-      "event_type": "discard_unsaved",
-      "reflection_id": "a957259d-e786-4652-95c2-f404800cc4fd",
-      "metadata": {
-        "action": "workspace",
-        "task_id": "retention-deletion"
-      },
-      "created_at": 1789911829
+      "created_at": 1789947659
     },
     {
       "event_type": "evaluation_requirement_saved",
@@ -312,7 +274,7 @@
         "requirement_id": "R8",
         "success": true
       },
-      "created_at": 1789911833
+      "created_at": 1789947663
     },
     {
       "event_type": "evaluation_requirement_saved",
@@ -321,7 +283,7 @@
         "requirement_id": "R14",
         "success": true
       },
-      "created_at": 1789911834
+      "created_at": 1789947664
     },
     {
       "event_type": "evaluation_requirement_saved",
@@ -330,7 +292,7 @@
         "requirement_id": "R11",
         "success": true
       },
-      "created_at": 1789911837
+      "created_at": 1789947667
     },
     {
       "event_type": "evaluation_requirement_saved",
@@ -339,7 +301,7 @@
         "requirement_id": "R15",
         "success": true
       },
-      "created_at": 1789911840
+      "created_at": 1789947670
     },
     {
       "event_type": "evaluation_requirement_saved",
@@ -348,7 +310,7 @@
         "requirement_id": "R16",
         "success": true
       },
-      "created_at": 1789911843
+      "created_at": 1789947673
     },
     {
       "event_type": "evaluation_requirement_saved",
@@ -357,7 +319,7 @@
         "requirement_id": "R17",
         "success": true
       },
-      "created_at": 1789911846
+      "created_at": 1789947676
     },
     {
       "event_type": "evaluation_requirement_saved",
@@ -366,7 +328,7 @@
         "requirement_id": "R18",
         "success": true
       },
-      "created_at": 1789911849
+      "created_at": 1789947679
     },
     {
       "event_type": "evaluation_completed",
@@ -374,56 +336,56 @@
       "metadata": {
         "success": true
       },
-      "created_at": 1789911854
+      "created_at": 1789947684
     }
   ],
   "requirement_checks": [
     {
       "requirement_id": "R1",
-      "status": "issue",
+      "status": "pass",
       "evidence": {
         "completed": true,
-        "duration_ms": 6900,
+        "duration_ms": 3100,
         "help_count": 0,
         "without_help": true,
         "error_count": 0
       },
-      "notes": "Capture exceeded the five-second acceptance threshold.",
-      "updated_at": 1789911609
+      "notes": "Capture completed within the five-second acceptance threshold without help.",
+      "updated_at": 1789947609
     },
     {
       "requirement_id": "R2",
-      "status": "pass",
+      "status": "issue",
       "evidence": {
-        "completed": true,
+        "completed": false,
         "without_help": true,
         "help_count": 0,
-        "understood": true
+        "understood": false
       },
-      "notes": "Direct block dismissal was observed inside the entry screen without a help request.",
-      "updated_at": 1789911726
+      "notes": "Block dismissal was incomplete or the participant requested help.",
+      "updated_at": 1789947622
     },
     {
       "requirement_id": "R3",
-      "status": "pass",
+      "status": "issue",
       "evidence": {
         "persisted": true,
         "second_session_checked": true,
-        "predicted_correctly": true
+        "predicted_correctly": false
       },
       "notes": "Starter preference was checked across two newly created reflections.",
-      "updated_at": 1789911738
+      "updated_at": 1789947629
     },
     {
       "requirement_id": "R4",
-      "status": "issue",
+      "status": "pass",
       "evidence": {
-        "no_auto_generation": false,
-        "completed": false,
-        "predicted_correctly": true
+        "no_auto_generation": true,
+        "completed": true,
+        "predicted_correctly": false
       },
       "notes": "The prepared journal appeared only after the explicit generation action.",
-      "updated_at": 1789911799
+      "updated_at": 1789947647
     },
     {
       "requirement_id": "R5",
@@ -434,7 +396,7 @@
         "without_help": true
       },
       "notes": "A source chip was inspected and the source relationship was understood.",
-      "updated_at": 1789911805
+      "updated_at": 1789947655
     },
     {
       "requirement_id": "R6",
@@ -445,30 +407,30 @@
         "no_auto_generation": true
       },
       "notes": "A complete entry was saved through blank writing without generation.",
-      "updated_at": 1789911767
+      "updated_at": 1789947635
     },
     {
       "requirement_id": "R7",
-      "status": "pass",
+      "status": "issue",
       "evidence": {
-        "selected_only_understood": true,
+        "selected_only_understood": false,
         "selected_count": 1,
-        "unselected_count": 4,
-        "predicted_correctly": true
+        "unselected_count": 0,
+        "predicted_correctly": false
       },
       "notes": "Participant selected a subset and answered the selected-data comprehension check.",
-      "updated_at": 1789911800
+      "updated_at": 1789947648
     },
     {
       "requirement_id": "R8",
-      "status": "issue",
+      "status": "critical",
       "evidence": {
-        "delete_independent": false,
-        "predicted_correctly": true,
-        "critical_misunderstanding": false
+        "delete_independent": true,
+        "predicted_correctly": false,
+        "critical_misunderstanding": true
       },
-      "notes": "The deletion task was incomplete.",
-      "updated_at": 1789911832
+      "notes": "The participant showed a critical misunderstanding of the deletion scope.",
+      "updated_at": 1789947662
     },
     {
       "requirement_id": "R9",
@@ -480,84 +442,84 @@
         "age_45_plus": false
       },
       "notes": "Only visible tap/click-and-type controls were needed.",
-      "updated_at": 1789911610
+      "updated_at": 1789947610
     },
     {
       "requirement_id": "R10",
-      "status": "pass",
+      "status": "critical",
       "evidence": {
-        "notice_explained": true,
-        "predicted_correctly": true,
-        "critical_misunderstanding": false
+        "notice_explained": false,
+        "predicted_correctly": false,
+        "critical_misunderstanding": true
       },
       "notes": "Processing-boundary comprehension was auto-scored from the participant checkpoint.",
-      "updated_at": 1789911801
+      "updated_at": 1789947649
     },
     {
       "requirement_id": "R11",
       "status": "not_tested",
       "evidence": {},
       "notes": "No privacy/domain reviewer present for this session.",
-      "updated_at": 1789911836
+      "updated_at": 1789947666
     },
     {
       "requirement_id": "R12",
       "status": "issue",
       "evidence": {
         "edit_saved_matches": false,
-        "completed": false,
+        "completed": true,
         "without_help": true
       },
       "notes": "A generated passage was edited and the edited journal was saved.",
-      "updated_at": 1789911806
+      "updated_at": 1789947656
     },
     {
       "requirement_id": "R13",
-      "status": "pass",
+      "status": "issue",
       "evidence": {
-        "custom_block_added": true,
-        "question_edited": true,
-        "reordered": true,
-        "understood": true
+        "custom_block_added": false,
+        "question_edited": false,
+        "reordered": false,
+        "understood": false
       },
       "notes": "Customization actions were observed before generation.",
-      "updated_at": 1789911727
+      "updated_at": 1789947623
     },
     {
       "requirement_id": "R14",
       "status": "issue",
       "evidence": {
-        "save_blocks_only_understood": true,
-        "save_entry_understood": false,
-        "export_understood": true,
-        "save_nothing_understood": true,
-        "predicted_correctly": true
+        "save_blocks_only_understood": false,
+        "save_entry_understood": true,
+        "export_understood": false,
+        "save_nothing_understood": false,
+        "predicted_correctly": false
       },
       "notes": "Distinct save/export/save-nothing outcomes were observed across the guided tasks.",
-      "updated_at": 1789911833
+      "updated_at": 1789947663
     },
     {
       "requirement_id": "R15",
-      "status": "pass",
+      "status": "issue",
       "evidence": {
         "connection_created": true,
-        "connection_labeled": true,
+        "connection_labeled": false,
         "without_help": true
       },
-      "notes": "Connected blocks readily once they saw the dots.",
-      "updated_at": 1789911839
+      "notes": "Dragged one arrow, left the default relationship, moved on without looking at it.",
+      "updated_at": 1789947669
     },
     {
       "requirement_id": "R16",
-      "status": "pass",
+      "status": "issue",
       "evidence": {
-        "suggestion_requested": false,
-        "suggestion_accepted": false,
-        "suggestion_rejected": true,
-        "suggestion_understood_optional": true
+        "suggestion_requested": true,
+        "suggestion_accepted": true,
+        "suggestion_rejected": false,
+        "suggestion_understood_optional": false
       },
-      "notes": "Declined to open suggestions at all; stated clearly that it was optional and they did not want it.",
-      "updated_at": 1789911842
+      "notes": "Accepted the first suggestion without reading it and assumed the app wanted it added.",
+      "updated_at": 1789947672
     },
     {
       "requirement_id": "R17",
@@ -565,20 +527,20 @@
       "evidence": {
         "block_found": true,
         "without_help": true,
-        "duration_ms": 9400
+        "duration_ms": 6800
       },
-      "notes": "Found the off-screen block without help.",
-      "updated_at": 1789911845
+      "notes": "Found the block quickly.",
+      "updated_at": 1789947675
     },
     {
       "requirement_id": "R18",
-      "status": "pass",
+      "status": "issue",
       "evidence": {
-        "keyboard_only_completed": true,
+        "keyboard_only_completed": false,
         "without_help": true
       },
-      "notes": "Completed capture by keyboard.",
-      "updated_at": 1789911848
+      "notes": "Reached for the mouse immediately and declined to retry with the keyboard.",
+      "updated_at": 1789947678
     }
   ],
   "governance_review": null,
@@ -589,22 +551,22 @@
         "R1",
         "R9"
       ],
-      "started_at_ms": 1789911600000,
-      "completed_at_ms": 1789911616800,
-      "duration_ms": 16800,
-      "status": "issue",
+      "started_at_ms": 1789947600000,
+      "completed_at_ms": 1789947607300,
+      "duration_ms": 7300,
+      "status": "pass",
       "objective": {
-        "duration_ms": 16800,
-        "within_5s": false,
+        "duration_ms": 7300,
+        "within_5s": true,
         "help_count": 0,
         "error_count": 0,
         "age_45_plus": false,
         "completed": true
       },
       "comprehension": {
-        "expected_behavior_correct": true
+        "expected_behavior_correct": false
       },
-      "reflection_id": "a957259d-e786-4652-95c2-f404800cc4fd"
+      "reflection_id": "80f6f38d-eb05-4907-9a51-4a76510a9b63"
     },
     {
       "task_id": "optional-structure",
@@ -612,58 +574,58 @@
         "R2",
         "R13"
       ],
-      "started_at_ms": 1789911611000,
-      "completed_at_ms": 1789911707200,
-      "duration_ms": 96200,
-      "status": "pass",
+      "started_at_ms": 1789947611000,
+      "completed_at_ms": 1789947639900,
+      "duration_ms": 28900,
+      "status": "issue",
       "objective": {
-        "dismissed_block": true,
-        "custom_block_added": true,
-        "question_edited": true,
-        "reordered": true,
+        "dismissed_block": false,
+        "custom_block_added": false,
+        "question_edited": false,
+        "reordered": false,
         "workspace_saved": true,
-        "answered_count": 2,
+        "answered_count": 1,
         "help_count": 0,
         "completed": true,
-        "duration_ms": 96200
+        "duration_ms": 28900
       },
       "comprehension": {},
-      "reflection_id": "a957259d-e786-4652-95c2-f404800cc4fd"
+      "reflection_id": "80f6f38d-eb05-4907-9a51-4a76510a9b63"
     },
     {
       "task_id": "persistent-default",
       "requirement_ids": [
         "R3"
       ],
-      "started_at_ms": 1789911728000,
-      "completed_at_ms": 1789911772100,
-      "duration_ms": 44100,
-      "status": "pass",
+      "started_at_ms": 1789947624000,
+      "completed_at_ms": 1789947640400,
+      "duration_ms": 16400,
+      "status": "issue",
       "objective": {
         "preference_changed": true,
         "first_entry_starter_count": 3,
         "second_entry_starter_count": 3,
         "completed": true,
-        "duration_ms": 44100
+        "duration_ms": 16400
       },
       "comprehension": {
-        "expected_behavior_correct": true
+        "expected_behavior_correct": false
       },
-      "reflection_id": "a957259d-e786-4652-95c2-f404800cc4fd"
+      "reflection_id": "80f6f38d-eb05-4907-9a51-4a76510a9b63"
     },
     {
       "task_id": "blank-writing",
       "requirement_ids": [
         "R6"
       ],
-      "started_at_ms": 1789911739000,
-      "completed_at_ms": 1789911891400,
-      "duration_ms": 152400,
+      "started_at_ms": 1789947630000,
+      "completed_at_ms": 1789947641200,
+      "duration_ms": 11200,
       "status": "pass",
       "objective": {
         "blank_saved": true,
         "completed": true,
-        "duration_ms": 152400
+        "duration_ms": 11200
       },
       "comprehension": {},
       "reflection_id": null
@@ -675,30 +637,30 @@
         "R7",
         "R10"
       ],
-      "started_at_ms": 1789911768000,
-      "completed_at_ms": 1789911855300,
-      "duration_ms": 87300,
-      "status": "issue",
+      "started_at_ms": 1789947636000,
+      "completed_at_ms": 1789947651800,
+      "duration_ms": 15800,
+      "status": "critical",
       "objective": {
         "privacy_notice_seen": true,
-        "generation_requested": false,
-        "journal_generated": false,
-        "generated_after_request": false,
-        "journal_saved": false,
+        "generation_requested": true,
+        "journal_generated": true,
+        "generated_after_request": true,
+        "journal_saved": true,
         "selected_count": 1,
-        "unselected_count": 4,
+        "unselected_count": 0,
         "help_count": 0,
         "completed": true,
-        "duration_ms": 87300
+        "duration_ms": 15800
       },
       "comprehension": {
-        "selected_data_correct": true,
-        "processor_correct": true,
-        "sent_already_correct": true,
-        "correct_count": 3,
+        "selected_data_correct": false,
+        "processor_correct": false,
+        "sent_already_correct": false,
+        "correct_count": 0,
         "total_count": 3
       },
-      "reflection_id": "a957259d-e786-4652-95c2-f404800cc4fd"
+      "reflection_id": "80f6f38d-eb05-4907-9a51-4a76510a9b63"
     },
     {
       "task_id": "source-editing",
@@ -706,20 +668,23 @@
         "R5",
         "R12"
       ],
-      "started_at_ms": 1789911802000,
-      "completed_at_ms": 1789911830500,
-      "duration_ms": 28500,
+      "started_at_ms": 1789947650000,
+      "completed_at_ms": 1789947659600,
+      "duration_ms": 9600,
       "status": "issue",
       "objective": {
         "source_inspected": false,
         "paragraph_edited": false,
-        "journal_saved": false,
+        "journal_saved": true,
         "help_count": 0,
         "completed": true,
-        "duration_ms": 28500
+        "duration_ms": 9600
       },
-      "comprehension": {},
-      "reflection_id": "a957259d-e786-4652-95c2-f404800cc4fd"
+      "comprehension": {
+        "source_meaning_correct": false,
+        "source_checkpoint_answered": true
+      },
+      "reflection_id": "80f6f38d-eb05-4907-9a51-4a76510a9b63"
     },
     {
       "task_id": "retention-deletion",
@@ -727,27 +692,27 @@
         "R8",
         "R14"
       ],
-      "started_at_ms": 1789911807000,
-      "completed_at_ms": 1789911878600,
-      "duration_ms": 71600,
-      "status": "issue",
+      "started_at_ms": 1789947657000,
+      "completed_at_ms": 1789947669100,
+      "duration_ms": 12100,
+      "status": "critical",
       "objective": {
-        "save_blocks_only_done": true,
-        "save_entry_done": false,
-        "save_nothing_used": true,
-        "exported": true,
-        "journal_deleted": false,
+        "save_blocks_only_done": false,
+        "save_entry_done": true,
+        "save_nothing_used": false,
+        "exported": false,
+        "journal_deleted": true,
         "blocks_remained": true,
-        "generated_entry_removed": false,
+        "generated_entry_removed": true,
         "help_count": 0,
         "completed": true,
-        "duration_ms": 71600
+        "duration_ms": 12100
       },
       "comprehension": {
-        "delete_scope_correct": true,
-        "retention_state_correct": true
+        "delete_scope_correct": false,
+        "retention_state_correct": false
       },
-      "reflection_id": "a957259d-e786-4652-95c2-f404800cc4fd"
+      "reflection_id": "80f6f38d-eb05-4907-9a51-4a76510a9b63"
     }
   ]
 }
