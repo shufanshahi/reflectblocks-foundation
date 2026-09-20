@@ -13,8 +13,8 @@ Current build:
 - block/header dragging
 - optional subtle sound effects
 - optional, consented Gemini next-block suggestions
-- persistent blocks, positions, ports, arrows, labels, and answers
-- per-user ownership isolation
+- persistent blocks, positions, ports, arrows, labels & answers.
+- per-user ownership isolation.
 
 See `M3_5_DRAWIO_AI_GUIDE.md` for integration and setup.
 
