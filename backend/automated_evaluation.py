@@ -17,7 +17,7 @@ DB_PATH = DATA_DIR / "reflectblocks.sqlite3"
 router = APIRouter(prefix="/api/evaluation/automated-runs", tags=["automated-evaluation"])
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-REQUIREMENTS = [f"R{i}" for i in range(1, 15)]
+REQUIREMENTS = [f"R{i}" for i in range(1, 19)]
 
 AutomationLevel = Literal["automated", "partial", "human_required"]
 AutomatedStatus = Literal["pass", "fail", "manual_required"]
@@ -567,6 +567,95 @@ def _run_checks(synthetic_user: str) -> list[AutomatedRequirementResult]:
             _check("Blocks and generated entry are stored in independent tables", independent, "Reuses the R8 persistence fixture: each saved form survived deletion of the other."),
         ],
         "Automation can verify the distinct actions exist and their stored states are independent. Table 8 asks the writer to select each option and correctly predict the resulting state; equal visibility and understanding are human-facing properties.",
+        started,
+    ))
+
+    # R15 -----------------------------------------------------------------
+    started = time.perf_counter()
+    r15 = _create_reflection_for_user(synthetic_user, "R15 fixture")
+    r15_blocks = [
+        BlockInput(id="r15-a", library_block_id="situation-1", category="situation", question="What happened?", answer="A", position_x=0, position_y=0, order_index=0),
+        BlockInput(id="r15-b", library_block_id="feelings-1", category="feelings", question="How did you feel?", answer="B", position_x=400, position_y=0, order_index=1),
+    ]
+    r15_connection = ConnectionInput(
+        id="r15-edge",
+        source_block_id="r15-a",
+        target_block_id="r15-b",
+        relation_type="made_me_feel",
+        source_port="right",
+        target_port="left",
+        relation_label=None,
+    )
+    r15_saved = _save_workspace(
+        r15.id,
+        WorkspaceSaveBody(blocks=r15_blocks, connections=[r15_connection]),
+        synthetic_user,
+    )
+    edge = r15_saved.connections[0] if r15_saved.connections else None
+    edge_persisted = (
+        edge is not None
+        and edge.source_block_id == "r15-a"
+        and edge.target_block_id == "r15-b"
+        and edge.relation_type == "made_me_feel"
+    )
+    labelled = _save_workspace(
+        r15.id,
+        WorkspaceSaveBody(
+            blocks=r15_blocks,
+            connections=[r15_connection.model_copy(update={"relation_type": "custom", "relation_label": "made this harder"})],
+        ),
+        synthetic_user,
+    )
+    label_persisted = bool(labelled.connections) and labelled.connections[0].relation_label == "made this harder"
+    results.append(_result(
+        "R15",
+        "Connect blocks with a labeled relationship",
+        "automated",
+        [
+            _check("A directed connection between two blocks round-trips through storage", edge_persisted, f"Saved and reloaded a connection with relation_type={edge.relation_type if edge else 'none'}."),
+            _check("A custom relationship label round-trips through storage", label_persisted, "Replaced the relation with a custom label and reloaded it."),
+            _source_check("src/components/ConnectionInspector.tsx", ["Relationship", "relation_label"]),
+        ],
+        "",
+        started,
+    ))
+
+    # R16 -----------------------------------------------------------------
+    started = time.perf_counter()
+    results.append(_result(
+        "R16",
+        "AI suggestions are understood as optional",
+        "partial",
+        [
+            _source_check("src/components/AISuggestionsPanel.tsx", ["suggestion_accepted", "suggestion_rejected", "Suggest next blocks"]),
+        ],
+        "The suggestion controls and their instrumentation can be verified statically, and acceptance/rejection is logged. Whether a participant feels free to ignore a suggestion, and whether they can still tell their own wording from a suggested question afterwards, needs participant evidence.",
+        started,
+    ))
+
+    # R17 -----------------------------------------------------------------
+    started = time.perf_counter()
+    results.append(_result(
+        "R17",
+        "Blocks remain findable on the canvas",
+        "human_required",
+        [
+            _source_check("src/components/ReflectionWorkspace.tsx", ["zoomAt", "fitView"]),
+        ],
+        "Pan/zoom controls can be shown to exist, but findability is a perception question: whether a person can locate an off-screen block without help cannot be derived from program state.",
+        started,
+    ))
+
+    # R18 -----------------------------------------------------------------
+    started = time.perf_counter()
+    results.append(_result(
+        "R18",
+        "Core capture is usable without a mouse",
+        "human_required",
+        [
+            _source_check("src/components/QuickThought.tsx", ["autoFocus", "<textarea"]),
+        ],
+        "Focus order and labelling can be partially inspected, but whether the capture flow is actually operable with a keyboard or screen reader requires observation of a person attempting it.",
         started,
     ))
 

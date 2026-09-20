@@ -210,8 +210,8 @@ export function FreeWritingPage({ reflectionId, onBack, onCreated, onOpenWorkspa
         <div className="document-page-actions">
           {onOpenWorkspace ? <button className="secondary-button" type="button" onClick={onOpenWorkspace}>Open workspace</button> : null}
           <div className="export-menu" aria-label="Export free writing">
-            <button className="secondary-button" type="button" onClick={() => exportDocument("txt")}>Export .txt</button>
-            <button className="secondary-button" type="button" onClick={() => exportDocument("md")}>Export .md</button>
+            <button className="secondary-button" type="button" onClick={() => exportDocument("txt")}>Export entry (.txt)</button>
+            <button className="secondary-button" type="button" onClick={() => exportDocument("md")}>Export entry (.md)</button>
           </div>
           <button className="primary-button" type="button" onClick={save} disabled={saving || (!dirty && Boolean(entry))}>
             {saving ? "Saving…" : dirty || !entry ? "Save writing" : "Saved"}

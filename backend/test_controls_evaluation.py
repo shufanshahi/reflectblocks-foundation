@@ -318,13 +318,16 @@ class MilestoneSixSevenTests(unittest.TestCase):
         response = self.client.post("/api/evaluation/automated-runs")
         self.assertEqual(response.status_code, 200, response.text)
         payload = response.json()
-        self.assertEqual(len(payload["results"]), 14)
+        self.assertEqual(len(payload["results"]), 18)
         self.assertIn(payload["overall_status"], {"technical_pass_human_followup", "pass"})
 
         by_id = {item["requirement_id"]: item for item in payload["results"]}
         self.assertEqual(by_id["R7"]["status"], "pass")
         self.assertEqual(by_id["R9"]["status"], "manual_required")
         self.assertEqual(by_id["R11"]["status"], "manual_required")
+        self.assertEqual(by_id["R15"]["status"], "pass")
+        self.assertEqual(by_id["R17"]["status"], "manual_required")
+        self.assertEqual(by_id["R18"]["status"], "manual_required")
 
         after = self.client.get("/api/reflections")
         self.assertEqual(after.status_code, 200)
@@ -336,7 +339,7 @@ class MilestoneSixSevenTests(unittest.TestCase):
 
         reopened = self.client.get(f"/api/evaluation/automated-runs/{payload['id']}")
         self.assertEqual(reopened.status_code, 200)
-        self.assertEqual(len(reopened.json()["results"]), 14)
+        self.assertEqual(len(reopened.json()["results"]), 18)
 
         # The temporary audit identity must be deleted after the run; only the
         # signed-in test user remains.

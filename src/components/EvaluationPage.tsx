@@ -72,6 +72,7 @@ const REQUIREMENTS: RequirementProtocol[] = [
       { key: "completed", label: "Dismissed the irrelevant block" },
       { key: "without_help", label: "Did so without moderator instruction" },
       { key: "understood", label: "Understood prompts are optional" },
+      { key: "dismiss_undone", label: "Undid a dismissal (dismissal was not confident)" },
     ],
   },
   {
@@ -96,6 +97,7 @@ const REQUIREMENTS: RequirementProtocol[] = [
     fields: [
       { key: "no_auto_generation", label: "No draft appeared before explicit generation" },
       { key: "predicted_correctly", label: "Participant correctly predicted when generation occurs" },
+      { key: "generation_cancelled", label: "Cancelled generation before it completed" },
       { key: "critical_misunderstanding", label: "Critical misunderstanding occurred" },
     ],
   },
@@ -447,6 +449,22 @@ export function EvaluationPage({ onBack, onStartTasks }: EvaluationPageProps) {
             },
           };
         }
+        if (eventTypes.has("block_dismiss_undone") || eventTypes.has("suggested_prompt_dismissed")) {
+          next.R2 = {
+            ...next.R2,
+            evidence: {
+              ...next.R2.evidence,
+              completed: eventTypes.has("block_dismissed") || eventTypes.has("suggested_prompt_dismissed"),
+              dismiss_undone: eventTypes.has("block_dismiss_undone"),
+            },
+          };
+        }
+        if (eventTypes.has("generation_cancelled")) {
+          next.R4 = {
+            ...next.R4,
+            evidence: { ...next.R4.evidence, generation_cancelled: true },
+          };
+        }
         if (eventTypes.has("suggestions_requested") || eventTypes.has("suggestion_accepted") || eventTypes.has("suggestion_rejected")) {
           next.R16 = {
             ...next.R16,
@@ -633,7 +651,7 @@ export function EvaluationPage({ onBack, onStartTasks }: EvaluationPageProps) {
             </div>
             <span className="automation-badge">Synthetic data only</span>
           </div>
-          <p>ReflectBlocks creates a temporary synthetic test user, exercises the real persistence/data-flow paths, checks relevant frontend implementation contracts, stores the R1–R14 results automatically, and deletes the synthetic fixture data afterward. It never sends test content to Gemini and never modifies your reflections or prompt preference.</p>
+          <p>ReflectBlocks creates a temporary synthetic test user, exercises the real persistence/data-flow paths, checks relevant frontend implementation contracts, stores the requirement results automatically, and deletes the synthetic fixture data afterward. It never sends test content to Gemini and never modifies your reflections or prompt preference.</p>
           <div className="automated-explainer-grid">
             <article><strong>Automatic</strong><span>Persistence, provenance, selection boundaries, deletion independence, edit-save behavior, and implementation contracts.</span></article>
             <article><strong>Still human</strong><span>Discoverability, comprehension, think-aloud evidence, aged-45+ inclusive usability, and expert judgment.</span></article>
@@ -641,7 +659,7 @@ export function EvaluationPage({ onBack, onStartTasks }: EvaluationPageProps) {
           </div>
           <div className="evaluation-task-actions">
             <button className="primary-button" type="button" onClick={() => { void runAutomaticAudit(); }} disabled={automatedRunning}>
-              {automatedRunning ? "Running R1–R14…" : "Run automated R1–R14 audit"}
+              {automatedRunning ? "Running the audit…" : "Run automated audit"}
             </button>
             {automatedRun ? <button className="secondary-button" type="button" onClick={exportAutomatedRun}>Export this run JSON</button> : null}
           </div>
@@ -752,7 +770,7 @@ export function EvaluationPage({ onBack, onStartTasks }: EvaluationPageProps) {
         <div className="evaluation-card evaluation-complete">
           <p className="eyebrow">Session complete</p>
           <h1>Evaluation saved.</h1>
-          <p>Requirement coverage: <strong>{coveredCount}/14</strong>. SUS score: <strong>{susScore?.toFixed(1)}</strong> / 100. Treat SUS as a standardized usability score, not a percentage grade.</p>
+          <p>Requirement coverage: <strong>{coveredCount}/{REQUIREMENTS.length}</strong>. SUS score: <strong>{susScore?.toFixed(1)}</strong> / 100. Treat SUS as a standardized usability score, not a percentage grade.</p>
           <div className="evaluation-complete-actions">
             <button className="secondary-button" type="button" onClick={() => { void exportData(); }}>Export full session JSON</button>
             <button className="primary-button" type="button" onClick={endSession}>End session</button>
@@ -767,7 +785,7 @@ export function EvaluationPage({ onBack, onStartTasks }: EvaluationPageProps) {
       <div className="evaluation-topbar">
         <button className="back-button" type="button" onClick={onBack}>← Reflections</button>
         <div className="evaluation-topbar-actions">
-          <span className="evaluation-active-badge">● Evaluation recording active · {coveredCount}/14 checked</span>
+          <span className="evaluation-active-badge">● Evaluation recording active · {coveredCount}/{REQUIREMENTS.length} checked</span>
           <button className="secondary-button" type="button" onClick={endSession}>Stop study mode</button>
         </div>
       </div>
@@ -794,10 +812,10 @@ export function EvaluationPage({ onBack, onStartTasks }: EvaluationPageProps) {
       <div className="evaluation-card protocol-card">
         <div className="evaluation-section-heading">
           <div>
-            <p className="eyebrow">R1–R14 evidence</p>
+            <p className="eyebrow">Requirement evidence</p>
             <h2>Record every Table 8 check.</h2>
           </div>
-          {loadingProtocol ? <span className="muted">Loading saved checks…</span> : <span className="coverage-pill">{coveredCount}/14 recorded</span>}
+          {loadingProtocol ? <span className="muted">Loading saved checks…</span> : <span className="coverage-pill">{coveredCount}/{REQUIREMENTS.length} recorded</span>}
         </div>
         <p className="muted">Status is a formative study judgment. Use <strong>Critical</strong> for privacy/consent/irreversible-deletion misunderstandings that the paper says should trigger revision after a single occurrence.</p>
 
@@ -987,7 +1005,7 @@ export function EvaluationPage({ onBack, onStartTasks }: EvaluationPageProps) {
 
         {error ? <p className="error" role="alert">{error}</p> : null}
         <div className="evaluation-submit-row">
-          <span>{susScore !== null && sus.every(Boolean) ? `Current SUS: ${susScore.toFixed(1)}` : `${coveredCount}/14 requirement checks recorded`}</span>
+          <span>{susScore !== null && sus.every(Boolean) ? `Current SUS: ${susScore.toFixed(1)}` : `${coveredCount}/${REQUIREMENTS.length} requirement checks recorded`}</span>
           <button className="primary-button" type="button" onClick={() => { void submit(); }} disabled={submitting}>
             {submitting ? "Saving…" : "Finish evaluation"}
           </button>

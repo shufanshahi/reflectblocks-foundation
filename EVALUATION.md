@@ -34,9 +34,23 @@ Each requirement is tagged with an automation level:
 | `partial` | Mechanics checkable, judgment is not |
 | `human_required` | Only a person can judge it (e.g. R11 expert prompt review) |
 
+The audit covers **R1–R18**. A clean run reports `technical_pass_human_followup`: 14 passed, 0 failed, 4 `manual_required` (R9, R11, R17, R18). `manual_required` is a statement of scope, not a failure — those requirements are waiting on participant or expert evidence.
+
 Run it from the evaluation page ("Run automated audit") or `POST /api/evaluation/automated-runs`. Results are stored in `automated_evaluation_runs` / `automated_evaluation_results` and can be re-opened or exported as JSON.
 
-**Important:** the frontend-contract checks assert exact UI label strings. Renaming a button in the UI will fail the audit until the contract in `automated_evaluation.py` is updated to match.
+**Important:** the frontend-contract checks assert exact UI label strings. Renaming a button in the UI will fail the audit until the contract in `automated_evaluation.py` is updated to match. Both must be changed in the same commit.
+
+### Separate backend verification (`backend/test_reflections.py`)
+
+The method requires R7 to be verified technically, not only through participant comprehension. Three unit tests do this against the real provider-boundary builder:
+
+- the Gemini payload contains only selected blocks
+- the quick thought is included only when explicitly selected
+- only connections *between* selected blocks are included
+
+`backend/test_drafts.py` additionally covers provenance integrity: two reflections can save entries using the same client-side paragraph id without colliding. Paragraph ids are now re-generated server-side for this reason, so source attribution cannot cross entries or users.
+
+The suite is 31 tests. Run with `python -m pytest backend -q`.
 
 ---
 
@@ -67,9 +81,9 @@ The evaluation page carries the full R1–R18 protocol. Each requirement shows i
 | ID | Requirement | Primary verification |
 |---|---|---|
 | R1 | Fast one-line capture | Timed task + automated timing |
-| R2 | Dismiss an irrelevant prompt directly | Guided task |
+| R2 | Dismiss an irrelevant prompt directly | Guided task + event log |
 | R3 | Persistent per-writer prompt default | Two-reflection walkthrough |
-| R4 | Generation only after explicit request | Prediction question before generating |
+| R4 | Generation only after explicit request | Prediction question + cancellation event |
 | R5 | Source transparency | Source-chip comprehension |
 | R6 | Complete a reflection with blank writing only | Blank-writing task |
 | R7 | Only selected material is processed | Selection task + backend check |
@@ -79,13 +93,35 @@ The evaluation page carries the full R1–R18 protocol. Each requirement shows i
 | R11 | Privacy/domain expert prompt review | Governance review only |
 | R12 | Generated wording remains editable and edits are saved | Edit, save, reopen |
 | R13 | Block customization before generation | Guided task |
-| R14 | Distinct retention outcomes | Retention walkthrough |
-| R15 | Connect blocks with a labeled relationship | Moderator task + event log |
+| R14 | Distinct retention outcomes | Retention walkthrough + retention status panel |
+| R15 | Connect blocks with a labeled relationship | Automated round-trip + moderator task |
 | R16 | AI suggestions are understood as optional | Moderator task + event log |
 | R17 | Blocks remain findable on the canvas | Moderator observation |
 | R18 | Core capture is usable without a mouse | Moderator observation |
 
-R15 and R16 evidence auto-fills from the event log when the session contains the relevant events — the same mechanism already used for R1 timing and R9 age group. R17 and R18 stay fully manual: whether a person can find or reach something is not something a script can judge.
+Some evidence auto-fills from the event log when the session contains the relevant events, using the same mechanism as R1 timing and R9 age group:
+
+| Requirement | Auto-filled from |
+|---|---|
+| R2 | `block_dismissed`, `block_dismiss_undone`, `suggested_prompt_dismissed` |
+| R4 | `generation_cancelled` |
+| R15 | `connection_created`, `connection_labeled` |
+| R16 | `suggestions_requested`, `suggestion_accepted`, `suggestion_rejected` |
+
+Auto-filled fields are a starting point, not a verdict — the moderator still sets the pass/issue/critical status. R17 and R18 stay fully manual: whether a person can find or reach something is not something a script can judge.
+
+### Retention status panel
+
+`RetentionStatus.tsx` shows a live snapshot of what currently exists for a reflection — quick thought, block count, generated entry, free writing — on the workspace, journal, and free-writing pages.
+
+This matters for R8 and R14. The protocol asks the participant *"what information do you believe still exists?"* after each retention action. Ask the question **before** letting them look at the panel, then use the panel to establish ground truth. Used the other way round it destroys the evidence.
+
+### Undo and cancellation
+
+Two affordances were added that change what the tasks observe:
+
+- **Skip a prompt** is now undoable (`block_dismiss_undone`), so R2 can distinguish a confident dismissal from a recovered mistake.
+- **Generation can be cancelled** (`generation_cancelled`), including mid-request. R4's boundary question — *"can the request be cancelled?"* — is now a real action a participant can take, not just a comprehension question.
 
 ### Governance review
 
@@ -106,7 +142,18 @@ The standard 10-statement System Usability Scale, scored 0–100, plus ease / co
 
 `src/lib/usability.ts` sends interaction events to `POST /api/evaluation/events` while a session is active. Events cover screen views, block add/edit/dismiss/reorder, connection created and labeled, AI suggestions requested/accepted/rejected, generation steps, save/export/delete/discard, and moderator help requests.
 
-**Privacy:** the backend keeps a strict allow-list (`_safe_metadata`, `_safe_evidence`, `_safe_guided_dict`). Journal text and block answers are never stored in the event log — only categorical outcomes and counts.
+Events that carry requirement evidence directly:
+
+| Event | Requirement | Records |
+|---|---|---|
+| `block_dismissed` / `block_dismiss_undone` | R2 | Whether a prompt was skipped, whether it had already been answered, and whether the skip was undone (auto-fills R2 evidence) |
+| `suggested_prompt_dismissed` | R2 | A suggested prompt was declined |
+| `generation_cancelled` | R4 | Generation was abandoned, and whether a request was already in flight (auto-fills R4 evidence) |
+| `connection_created` / `connection_labeled` | R15 | An arrow was drawn and given a relationship |
+| `suggestions_requested` / `suggestion_accepted` / `suggestion_rejected` | R16 | Per-suggestion accept and reject, with category |
+| `discard_unsaved` (`workspace_leave`, `journal_leave`) | R14 | Leaving without saving |
+
+**Privacy:** the backend keeps a strict allow-list (`_safe_metadata`, `_safe_evidence`, `_safe_guided_dict`). Journal text and block answers are never stored in the event log — only categorical outcomes and counts. Adding a new metadata field to a `trackUsability` call is not enough: unless the key is in the allow-list it is silently dropped before storage.
 
 ## Storage and export
 
@@ -117,8 +164,21 @@ The standard 10-statement System Usability Scale, scored 0–100, plus ease / co
 | `evaluation_requirement_checks` | Per-requirement status, evidence, notes |
 | `evaluation_governance_reviews` | Privacy + HCAI review |
 | `evaluation_guided_tasks` | Guided task timing and outcomes |
+| `automated_evaluation_runs` / `automated_evaluation_results` | Audit runs, independent of any session |
 
 Export via `GET /api/evaluation/sessions/{id}/export`, or the export button, which downloads **JSON** (`reflectblocks-evaluation-<participant_code>.json`). There is no CSV export; flattening for spreadsheet analysis is a separate step.
+
+## Extending the protocol
+
+Adding a requirement or a new piece of evidence touches more than one place, and the failure mode is silent. In order:
+
+1. **`backend/evaluation.py`** — extend `REQUIREMENT_IDS`, and add any new evidence key to the `_safe_evidence` allow-list. Add new event metadata keys to `_safe_metadata`.
+2. **`src/components/EvaluationPage.tsx`** — add the protocol entry (method, procedure, decision, fields). Counters derive from `REQUIREMENTS.length`, so they update themselves.
+3. **`src/lib/usability.ts` call sites** — add the `trackUsability` call if the evidence should auto-fill, then read it in the `loadProtocol` effect.
+4. **`backend/automated_evaluation.py`** — extend `REQUIREMENTS` and add a result block, even if it is only `human_required`. A requirement absent from the audit is silently missing from the run rather than reported as out of scope.
+5. **`backend/test_controls_evaluation.py`** — the audit test asserts the exact result count in two places.
+
+**The trap:** a `trackUsability` field or evidence key that is not in the matching allow-list is dropped on write. No error, no warning — the event saves, the field is simply gone. This has happened twice. After adding instrumentation, record one real event and read it back before trusting a session.
 
 ## Running a session
 
@@ -133,7 +193,8 @@ Export via `GET /api/evaluation/sessions/{id}/export`, or the export button, whi
 
 ## Known gaps
 
-- **Coverage counters say 14, protocol has 18.** The automated audit runs R1–R14 and the evaluation page counters read `/14`. R15–R18 exist in the protocol and are accepted by the backend, so a moderator can record them, but they are not reflected in the automated run or the coverage number.
-- **R15–R18 have no guided task.** They are moderator-run, not part of the seven-task wizard.
-- **Frontend-contract checks are label-coupled.** UI copy changes break the audit until the contracts are updated.
+- **R15–R18 have no guided task.** They are moderator-run, not part of the seven-task wizard. R15 is covered by the automated audit; R16–R18 depend on moderator observation.
+- **Frontend-contract checks are label-coupled.** UI copy changes break the audit until the contracts are updated. Control labels changed in the recent round (`Skip this prompt`, `Delete blocks only`, `Delete everything`, `Organize my entry`, `Export entry (.txt)`) and the contracts were updated with them, so the audit passes — but any protocol text or printed moderator script that still names the old labels is now stale.
 - **Interface comprehension is not backend proof.** R7, R8, R10 and R11 also need technical and expert verification; participant understanding alone does not establish that the production backend deletes data or sends only selected blocks.
+- **Allow-list drops are silent.** Instrumentation that is not allow-listed fails without an error. See *Extending the protocol*.
+- **No CSV export.** Descriptive statistics (completion rates, medians, error counts) require flattening the JSON export by hand.

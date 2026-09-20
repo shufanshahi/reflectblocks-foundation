@@ -295,6 +295,8 @@ def _safe_metadata(metadata: dict[str, Any]) -> dict[str, Any]:
         "requirement_id",
         "task_id",
         "critical",
+        "during_request",
+        "was_answered",
     }
     return _primitive_dict(metadata, allowed)
 
@@ -344,6 +346,8 @@ def _safe_evidence(evidence: dict[str, Any]) -> dict[str, Any]:
         "block_found",
         "keyboard_only_completed",
         "accessible_without_mouse",
+        "dismiss_undone",
+        "generation_cancelled",
     }
     return _primitive_dict(evidence, allowed)
 
