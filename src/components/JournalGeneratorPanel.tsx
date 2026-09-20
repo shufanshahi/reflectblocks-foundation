@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { clearRecovery, readRecovery, recoveryKey, writeRecovery } from "../lib/draftRecovery";
 import { getEvaluationSessionId, trackUsability } from "../lib/usability";
@@ -24,6 +24,7 @@ type JournalGeneratorPanelProps = {
   connections: SavedConnection[];
   onPlaySound?: () => void;
   onOpenJournal?: () => void;
+  onRetentionChange?: () => void;
 };
 
 type Stage = "closed" | "select" | "confirm" | "generating" | "draft";
@@ -127,6 +128,7 @@ export function JournalGeneratorPanel({
   connections,
   onPlaySound,
   onOpenJournal,
+  onRetentionChange,
 }: JournalGeneratorPanelProps) {
   const [config, setConfig] = useState<AIConfig | null>(null);
   const [stage, setStage] = useState<Stage>("closed");
@@ -143,6 +145,7 @@ export function JournalGeneratorPanel({
   const [recoveryAvailable, setRecoveryAvailable] = useState<GeneratedDraftRecovery | null>(null);
   const generationRecoveryKey = useMemo(() => recoveryKey("generated-draft", reflectionId), [reflectionId]);
   const evaluationMode = Boolean(getEvaluationSessionId());
+  const abortRef = useRef<AbortController | null>(null);
 
   const answeredBlocks = useMemo(
     () => blocks.filter((block) => block.answer.trim()),
@@ -177,6 +180,7 @@ export function JournalGeneratorPanel({
 
     return () => {
       cancelled = true;
+      abortRef.current?.abort();
     };
   }, [generationRecoveryKey, reflectionId]);
 
@@ -261,6 +265,9 @@ export function JournalGeneratorPanel({
       return;
     }
 
+    const controller = new AbortController();
+    abortRef.current = controller;
+
     try {
       setStage("generating");
       setError(null);
@@ -277,8 +284,10 @@ export function JournalGeneratorPanel({
             selectedBlocks,
             selectedConnections,
             includeQuickThought,
+            controller.signal,
           );
 
+      if (controller.signal.aborted) return;
       const sourceById = new Map(selectedBlocks.map((block) => [block.id, block]));
       const nextSources = Object.fromEntries(
         next.paragraphs.map((paragraph) => [
@@ -297,9 +306,25 @@ export function JournalGeneratorPanel({
       void trackUsability("journal_generated", reflectionId, { source_count: selectedBlocks.length, success: true });
       onPlaySound?.();
     } catch (err) {
+      if (controller.signal.aborted) return;
       setError(err instanceof Error ? err.message : "Could not generate the journal draft.");
       setStage("confirm");
+    } finally {
+      if (abortRef.current === controller) abortRef.current = null;
     }
+  }
+
+  function cancelGeneration() {
+    const wasGenerating = stage === "generating";
+    abortRef.current?.abort();
+    abortRef.current = null;
+    setError(null);
+    setStage("select");
+    void trackUsability("generation_cancelled", reflectionId, {
+      requirement_id: "R4",
+      during_request: wasGenerating,
+      selected_count: selectedBlocks.length,
+    });
   }
 
   function markDraftChanged() {
@@ -351,6 +376,7 @@ export function JournalGeneratorPanel({
       clearRecovery(generationRecoveryKey);
       setRecoveryAvailable(null);
       setSaveMessage(`Saved ${formatSavedTime(saved.updated_at)}`);
+      onRetentionChange?.();
       void trackUsability("journal_saved", reflectionId, { source_count: saved.paragraphs.reduce((sum, item) => sum + item.sources.length, 0) });
       onPlaySound?.();
     } catch (err) {
@@ -486,6 +512,12 @@ export function JournalGeneratorPanel({
           </div>
         </div>
 
+        <p className="generation-status-banner" role="status">
+          {generating
+            ? "Organizing has started. You can still cancel."
+            : "Nothing has been organized or sent yet. Your text is only processed if you press “Organize my entry”."}
+        </p>
+
         <div className="privacy-summary-grid">
           <div>
             <strong>{evaluationMode ? "Would be sent to Gemini in normal use" : "Will be sent to Gemini"}</strong>
@@ -499,14 +531,31 @@ export function JournalGeneratorPanel({
             <strong>Will not be sent</strong>
             <ul>
               <li>Unchecked blocks</li>
-              <li>Other saved reflections</li>
+              <li>Previous entries and other saved reflections</li>
               <li>Your Google profile or reflection history</li>
             </ul>
           </div>
         </div>
 
-        <div className="selected-source-preview">
-          {selectedBlocks.map((block) => <span key={block.id}>{block.question}</span>)}
+        <p className="provider-notice recipient-notice">
+          <strong>Who receives it:</strong> Google, through the Gemini AI service, which processes the text below on a server outside ReflectBlocks.
+        </p>
+
+        <div className="selected-source-preview" aria-label="Exact material that will be sent">
+          <strong>Exact material {evaluationMode ? "that would be" : "that will be"} sent</strong>
+          <ul>
+            {includeQuickThought ? (
+              <li><span>Quick thought</span><small>{shortAnswer(quickThought)}</small></li>
+            ) : null}
+            {selectedBlocks.map((block) => (
+              <li key={block.id}><span>{block.question}</span><small>{shortAnswer(block.answer)}</small></li>
+            ))}
+          </ul>
+          {answeredBlocks.length > selectedBlocks.length ? (
+            <p className="excluded-note">
+              {answeredBlocks.length - selectedBlocks.length} unchecked answered block{answeredBlocks.length - selectedBlocks.length === 1 ? "" : "s"} stay on this device and are not included.
+            </p>
+          ) : null}
         </div>
 
         {evaluationMode ? (
@@ -514,13 +563,21 @@ export function JournalGeneratorPanel({
             Study mode uses prepared fictional output in this browser. No selected reflection text is sent to Gemini during this evaluation session. The notice above shows the production data-flow participants are being asked to understand.
           </p>
         ) : <p className="provider-notice">{config.freeTierNotice}</p>}
+        <p className="provider-notice">
+          Why: Gemini receives the selected text only to rewrite it into a draft you can edit. Your original blocks stay unchanged, and nothing is saved until you choose Save.
+        </p>
         <p className="journal-model-line">Journal model: <strong>{evaluationMode ? "Prepared study fixture" : (config.journalModel || config.model)}</strong></p>
         {error ? <p className="error" role="alert">{error}</p> : null}
 
         <div className="journal-generator-actions">
-          <button type="button" className="secondary-button" onClick={() => setStage("select")} disabled={generating}>← Change selection</button>
+          <div className="draft-secondary-actions">
+            <button type="button" className="secondary-button" onClick={() => setStage("select")} disabled={generating}>← Change selection</button>
+            <button type="button" className="secondary-button" onClick={cancelGeneration}>
+              {generating ? "Cancel request" : "Cancel"}
+            </button>
+          </div>
           <button type="button" className="primary-button" onClick={generate} disabled={generating}>
-            {generating ? "Organizing…" : evaluationMode ? "Confirm & show prepared draft" : "Confirm & generate"}
+            {generating ? "Organizing…" : "Organize my entry"}
           </button>
         </div>
       </section>

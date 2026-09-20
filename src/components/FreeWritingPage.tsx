@@ -10,6 +10,7 @@ import {
 import { clearRecovery, readRecovery, recoveryKey, writeRecovery } from "../lib/draftRecovery";
 import { trackUsability } from "../lib/usability";
 import { ConfirmDialog } from "./ConfirmDialog";
+import { RetentionStatus } from "./RetentionStatus";
 
 type FreeWritingPageProps = {
   reflectionId: string | null;
@@ -51,6 +52,8 @@ export function FreeWritingPage({ reflectionId, onBack, onCreated, onOpenWorkspa
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [confirmDiscard, setConfirmDiscard] = useState(false);
+  const [confirmLeave, setConfirmLeave] = useState(false);
+  const [retentionTick, setRetentionTick] = useState(0);
 
   const key = useMemo(() => recoveryKey("free-writing", reflectionId ?? "new"), [reflectionId]);
 
@@ -129,7 +132,8 @@ export function FreeWritingPage({ reflectionId, onBack, onCreated, onOpenWorkspa
         clearRecovery(key);
         setDirty(false);
         setRecovered(false);
-        setSaveMessage("Saved");
+        setSaveMessage("Saved. Your blocks and generated entry were not changed.");
+        setRetentionTick((tick) => tick + 1);
         void trackUsability("free_writing_saved", reflectionId, { char_count: body.length });
       } else {
         const created = await createFreeWriting(title, body);
@@ -155,6 +159,18 @@ export function FreeWritingPage({ reflectionId, onBack, onCreated, onOpenWorkspa
       : `${cleanTitle ? `${cleanTitle}\n${"=".repeat(Math.min(cleanTitle.length, 60))}\n\n` : ""}${body}\n`;
     downloadText(`${safeFilename(title)}.${format}`, text, format === "md" ? "text/markdown" : "text/plain");
     void trackUsability("export_clicked", reflectionId, { format });
+    setSaveMessage(`Exported a copy (.${format}) of the text on screen to your device. Nothing was deleted.`);
+  }
+
+  function requestLeave() {
+    if (dirty) setConfirmLeave(true);
+    else onBack();
+  }
+
+  function leaveWithoutSaving() {
+    clearRecovery(key);
+    setConfirmLeave(false);
+    onBack();
   }
 
   function discardUnsaved() {
@@ -190,7 +206,7 @@ export function FreeWritingPage({ reflectionId, onBack, onCreated, onOpenWorkspa
   return (
     <section className="free-writing-page page-enter" aria-labelledby="free-writing-title">
       <div className="document-page-topbar">
-        <button className="back-button" type="button" onClick={onBack}>← Reflections</button>
+        <button className="back-button" type="button" onClick={requestLeave}>← Reflections</button>
         <div className="document-page-actions">
           {onOpenWorkspace ? <button className="secondary-button" type="button" onClick={onOpenWorkspace}>Open workspace</button> : null}
           <div className="export-menu" aria-label="Export free writing">
@@ -202,6 +218,8 @@ export function FreeWritingPage({ reflectionId, onBack, onCreated, onOpenWorkspa
           </button>
         </div>
       </div>
+
+      {reflectionId ? <RetentionStatus reflectionId={reflectionId} refreshKey={retentionTick} /> : null}
 
       {recovered ? (
         <div className="recovery-banner" role="status">
@@ -244,6 +262,14 @@ export function FreeWritingPage({ reflectionId, onBack, onCreated, onOpenWorkspa
 
       {error ? <p className="error" role="alert">{error}</p> : null}
 
+      <ConfirmDialog
+        open={confirmLeave}
+        title="Leave without saving?"
+        description="Your unsaved writing will be discarded, including the recovery copy on this device. Anything you already saved stays as it is."
+        confirmLabel="Leave without saving"
+        onConfirm={leaveWithoutSaving}
+        onCancel={() => setConfirmLeave(false)}
+      />
       <ConfirmDialog
         open={confirmDiscard}
         title="Discard unsaved writing?"

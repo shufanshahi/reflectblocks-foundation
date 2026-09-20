@@ -322,7 +322,10 @@ def _save_generated_entry_for_user(
             )
 
         for position, (paragraph, sources) in enumerate(zip(body.paragraphs, source_lists)):
-            paragraph_id = paragraph.id.strip() or str(uuid.uuid4())
+            # The client/Gemini paragraph id (for example "p1") is only unique within
+            # one draft, but this column is the table's global primary key. Always
+            # store a fresh id so different entries and users cannot collide.
+            paragraph_id = str(uuid.uuid4())
             connection.execute(
                 """
                 INSERT INTO generated_entry_paragraphs (

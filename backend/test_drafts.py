@@ -203,5 +203,33 @@ class MilestoneFiveDraftTests(unittest.TestCase):
         self.assertIsInstance(item["generated_entry_updated_at"], int)
 
 
+    def test_two_reflections_can_save_entries_with_the_same_paragraph_id(self) -> None:
+        """Gemini reuses ids like "p1"; a second save must not collide with the first."""
+        self.login("user-a", "a@example.com")
+        first_reflection = self.create_reflection()
+        second_reflection = self.create_reflection()
+
+        first = self.client.put(
+            f"/api/reflections/{first_reflection}/generated-entry",
+            json=self.save_payload("First reflection text."),
+        )
+        second = self.client.put(
+            f"/api/reflections/{second_reflection}/generated-entry",
+            json=self.save_payload("Second reflection text."),
+        )
+        self.assertEqual(first.status_code, 200, first.text)
+        self.assertEqual(second.status_code, 200, second.text)
+
+        # A different user saving the same paragraph id must not collide either.
+        self.client.cookies.clear()
+        self.login("user-b", "b@example.com")
+        other_user_reflection = self.create_reflection()
+        third = self.client.put(
+            f"/api/reflections/{other_user_reflection}/generated-entry",
+            json=self.save_payload("Other user's text."),
+        )
+        self.assertEqual(third.status_code, 200, third.text)
+
+
 if __name__ == "__main__":
     unittest.main()

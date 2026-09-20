@@ -277,7 +277,7 @@ def _run_checks(synthetic_user: str) -> list[AutomatedRequirementResult]:
         "partial",
         [
             _check("A single block can be removed without deleting the reflection", len(after_remove.blocks) == 1 and after_remove.blocks[0].id == "r2-a", "Workspace snapshot retained the other block after removing the fixture block."),
-            _source_check("src/components/ReflectionBlock.tsx", ["title=\"Remove block\"", "onRemove(block.id)"]),
+            _source_check("src/components/ReflectionBlock.tsx", ["Skip this prompt", "onRemove(block.id)"]),
         ],
         "Automation can verify that the dismiss control and data operation exist. It cannot establish that a person understands prompts are optional or can find the dismiss action without moderator help.",
         started,
@@ -335,7 +335,7 @@ def _run_checks(synthetic_user: str) -> list[AutomatedRequirementResult]:
         "partial",
         [
             _check("Saving/filling blocks does not create a generated entry", generated_before == 0, f"Generated-entry count after workspace save: {generated_before}."),
-            _source_check("src/components/JournalGeneratorPanel.tsx", ["Review privacy →", "Confirm & generate", 'type Stage = "closed" | "select" | "confirm" | "generating" | "draft"']),
+            _source_check("src/components/JournalGeneratorPanel.tsx", ["Review privacy →", "Organize my entry", 'type Stage = "closed" | "select" | "confirm" | "generating" | "draft"']),
         ],
         "The technical boundary can be checked automatically, but Table 8 also asks whether a participant believes generation happened before the explicit action. That belief cannot be inferred from program state alone.",
         started,
@@ -413,7 +413,7 @@ def _run_checks(synthetic_user: str) -> list[AutomatedRequirementResult]:
         "partial",
         [
             _check("Provider context excludes unselected blocks, unselected quick thought, and edges to unselected blocks", selected_only, "Built the real provider-boundary context from one selected block while another saved block existed."),
-            _source_check("src/components/JournalGeneratorPanel.tsx", ["Unchecked blocks", "Other saved reflections", "selectedBlocks", "selectedConnections"]),
+            _source_check("src/components/JournalGeneratorPanel.tsx", ["Unchecked blocks", "Previous entries and other saved reflections", "selectedBlocks", "selectedConnections"]),
         ],
         "The selected-only provider payload is directly testable and this audit never calls Gemini. Table 8 additionally calls for a team/privacy data-flow review and participant understanding of the selection model; those require human review.",
         started,
@@ -456,8 +456,8 @@ def _run_checks(synthetic_user: str) -> list[AutomatedRequirementResult]:
         "partial",
         [
             _check("Generated entry and workspace blocks have independent persistence", independent, f"After journal delete: blocks={block_after_journal_delete}, journal={journal_after_journal_delete}; after workspace clear: blocks={block_after_workspace_delete}, journal={journal_after_workspace_delete}."),
-            _source_check("src/components/ReflectionWorkspace.tsx", ["Delete saved blocks", "ConfirmDialog"]),
-            _source_check("src/components/JournalEntryPage.tsx", ["Delete journal", "ConfirmDialog"]),
+            _source_check("src/components/ReflectionWorkspace.tsx", ["Delete blocks only", "ConfirmDialog"]),
+            _source_check("src/components/JournalEntryPage.tsx", ["Delete generated entry", "ConfirmDialog"]),
         ],
         "Deletion independence and confirmation components are testable. The irreversible-deletion evaluation specifically asks what a participant believes will be removed before confirmation; automation cannot read that mental model.",
         started,
@@ -483,7 +483,7 @@ def _run_checks(synthetic_user: str) -> list[AutomatedRequirementResult]:
         "Plain-language processing notice",
         "partial",
         [
-            _source_check("src/components/JournalGeneratorPanel.tsx", ["Privacy confirmation", "Will be sent to Gemini", "Will not be sent", "selected block answer", "Unchecked blocks", "Other saved reflections", "Journal model:"]),
+            _source_check("src/components/JournalGeneratorPanel.tsx", ["Privacy confirmation", "Will be sent to Gemini", "Will not be sent", "selected block answer", "Unchecked blocks", "Previous entries and other saved reflections", "Journal model:"]),
         ],
         "Automation can verify that the notice contains the expected disclosure elements and appears in the explicit confirmation stage. The paper specifically requires participants to explain the notice in their own words; comprehension cannot be inferred from the notice merely existing.",
         started,
@@ -562,8 +562,8 @@ def _run_checks(synthetic_user: str) -> list[AutomatedRequirementResult]:
         "Distinct retention outcomes",
         "partial",
         [
-            _source_check("src/components/ReflectionWorkspace.tsx", ["Save blocks only", "Save nothing", "Delete saved blocks"]),
-            _source_check("src/components/JournalEntryPage.tsx", ["Export .txt", "Export .md", "Save nothing", "Delete journal", "Update journal"]),
+            _source_check("src/components/ReflectionWorkspace.tsx", ["Save blocks only", "Save nothing", "Delete blocks only", "Delete everything"]),
+            _source_check("src/components/JournalEntryPage.tsx", ["Export entry (.txt)", "Export entry (.md)", "Save nothing", "Delete generated entry", "Update journal"]),
             _check("Blocks and generated entry are stored in independent tables", independent, "Reuses the R8 persistence fixture: each saved form survived deletion of the other."),
         ],
         "Automation can verify the distinct actions exist and their stored states are independent. Table 8 asks the writer to select each option and correctly predict the resulting state; equal visibility and understanding are human-facing properties.",

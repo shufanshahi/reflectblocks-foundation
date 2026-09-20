@@ -63,6 +63,11 @@ export function AISuggestionsPanel({
     };
   }, [evaluationMode]);
 
+  const addedQuestions = useMemo(
+    () => new Set(blocks.map((block) => block.question.trim().toLowerCase())),
+    [blocks],
+  );
+
   async function generate() {
     try {
       setLoading(true);
@@ -167,18 +172,16 @@ export function AISuggestionsPanel({
             <button
               type="button"
               className="micro-button"
-              onClick={() => {
-                void trackUsability("suggestion_rejected", reflectionId, { requirement_id: "R16", success: true, source_count: suggestions.length });
-                setConfirming(true);
-              }}
+              onClick={() => setConfirming(true)}
             >
               Refresh
             </button>
           </div>
           {suggestions.map((suggestion, index) => {
             const category = BLOCK_CATEGORIES.find((item) => item.id === suggestion.category) ?? BLOCK_CATEGORIES[0];
+            const added = addedQuestions.has(suggestion.question.trim().toLowerCase());
             return (
-              <article className="ai-suggestion-card" key={`${suggestion.question}-${index}`}>
+              <article className={`ai-suggestion-card ${added ? "added" : ""}`} key={`${suggestion.question}-${index}`}>
                 <div className="ai-suggestion-category" style={{ color: category.color }}>
                   {category.icon} {category.shortLabel}
                 </div>
@@ -187,7 +190,9 @@ export function AISuggestionsPanel({
                 <button
                   type="button"
                   className="add-ai-block-button"
+                  disabled={added}
                   onClick={() => {
+                    if (added) return;
                     void trackUsability("suggestion_accepted", reflectionId, { requirement_id: "R16", success: true, category: suggestion.category });
                     onAddSuggestion({
                       ...suggestion,
@@ -195,7 +200,18 @@ export function AISuggestionsPanel({
                     });
                   }}
                 >
-                  + Add to canvas
+                  {added ? "✓ Added to canvas" : "+ Add to canvas"}
+                </button>
+                <button
+                  type="button"
+                  className="dismiss-suggestion-button"
+                  onClick={() => {
+                    void trackUsability("suggestion_rejected", reflectionId, { requirement_id: "R16", success: true, category: suggestion.category });
+                    setSuggestions((current) => current.filter((_, position) => position !== index));
+                  }}
+                  aria-label={`Dismiss suggestion: ${suggestion.question}`}
+                >
+                  Dismiss
                 </button>
               </article>
             );

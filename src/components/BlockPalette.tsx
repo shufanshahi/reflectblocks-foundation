@@ -7,6 +7,7 @@ import {
   suggestedNextCategories,
   type LibraryBlock,
 } from "../lib/blockLibrary";
+import { trackUsability } from "../lib/usability";
 import type { SavedBlock } from "../reflections";
 
 type BlockPaletteProps = {
@@ -14,13 +15,15 @@ type BlockPaletteProps = {
   selectedBlock: SavedBlock | null;
   onAdd: (block: LibraryBlock) => void;
   onAddCustom: (question: string, category: string) => void;
+  onOpenFreeWriting?: () => void;
   aiPanel?: ReactNode;
 };
 
-export function BlockPalette({ addedLibraryIds, selectedBlock, onAdd, onAddCustom, aiPanel }: BlockPaletteProps) {
+export function BlockPalette({ addedLibraryIds, selectedBlock, onAdd, onAddCustom, onOpenFreeWriting, aiPanel }: BlockPaletteProps) {
   const [category, setCategory] = useState(BLOCK_CATEGORIES[0].id);
   const [query, setQuery] = useState("");
   const [customOpen, setCustomOpen] = useState(false);
+  const [dismissedSuggestionIds, setDismissedSuggestionIds] = useState<Set<string>>(new Set());
   const [customQuestion, setCustomQuestion] = useState("");
   const [customCategory, setCustomCategory] = useState(BLOCK_CATEGORIES[0].id);
 
@@ -36,9 +39,14 @@ export function BlockPalette({ addedLibraryIds, selectedBlock, onAdd, onAddCusto
     if (!selectedBlock) return [];
     const nextCategories = new Set(suggestedNextCategories(selectedBlock.category));
     return BLOCK_LIBRARY.filter(
-      (block) => nextCategories.has(block.category) && !addedLibraryIds.has(block.id),
+      (block) => nextCategories.has(block.category) && !addedLibraryIds.has(block.id) && !dismissedSuggestionIds.has(block.id),
     ).slice(0, 3);
-  }, [addedLibraryIds, selectedBlock]);
+  }, [addedLibraryIds, dismissedSuggestionIds, selectedBlock]);
+
+  function dismissSuggestion(id: string) {
+    setDismissedSuggestionIds((current) => new Set(current).add(id));
+    void trackUsability("suggested_prompt_dismissed", null, { requirement_id: "R2", success: true });
+  }
 
   function addCustom() {
     const question = customQuestion.trim();
@@ -76,6 +84,13 @@ export function BlockPalette({ addedLibraryIds, selectedBlock, onAdd, onAddCusto
           </div>
           <span className="library-count">60 blocks</span>
         </div>
+
+        {onOpenFreeWriting ? (
+          <div className="blank-writing-callout">
+            <span>Prefer not to use prompts?</span>
+            <button type="button" className="micro-button" onClick={onOpenFreeWriting}>Write freely instead</button>
+          </div>
+        ) : null}
 
         <button
           className="custom-block-toggle"
@@ -122,16 +137,26 @@ export function BlockPalette({ addedLibraryIds, selectedBlock, onAdd, onAddCusto
             {suggestions.map((block) => {
               const categoryInfo = BLOCK_CATEGORIES.find((item) => item.id === block.category)!;
               return (
-                <button
-                  className="suggestion-block"
-                  key={block.id}
-                  type="button"
-                  onClick={() => onAdd(block)}
-                >
-                  <span style={{ color: categoryInfo.color }}>{categoryInfo.icon}</span>
-                  <span>{block.question}</span>
-                  <b>+</b>
-                </button>
+                <div className="suggestion-block-row" key={block.id}>
+                  <button
+                    className="suggestion-block"
+                    type="button"
+                    onClick={() => onAdd(block)}
+                  >
+                    <span style={{ color: categoryInfo.color }}>{categoryInfo.icon}</span>
+                    <span>{block.question}</span>
+                    <b>+</b>
+                  </button>
+                  <button
+                    type="button"
+                    className="dismiss-suggestion-button"
+                    onClick={() => dismissSuggestion(block.id)}
+                    aria-label={`Dismiss suggested question: ${block.question}`}
+                    title="Not relevant. Hide this suggestion."
+                  >
+                    Dismiss
+                  </button>
+                </div>
               );
             })}
           </section>
