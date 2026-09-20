@@ -1,0 +1,872 @@
+{
+  "session": {
+    "id": "6f656253-4b1f-40ae-8e04-451920d8365e",
+    "user_email": "abdullahaljubaergem@gmail.com",
+    "participant_code": "x01",
+    "device_type": "desktop",
+    "age_group": "18_24",
+    "text_editing_experience": "comfortable",
+    "started_at": 1789880630,
+    "completed_at": 1789881425,
+    "sus": [
+      3,
+      2,
+      2,
+      3,
+      3,
+      2,
+      1,
+      4,
+      3,
+      3
+    ],
+    "custom": {
+      "ease_rating": 3,
+      "control_rating": 3,
+      "privacy_clarity_rating": 5,
+      "comments": ""
+    }
+  },
+  "events": [
+    {
+      "event_type": "evaluation_started",
+      "reflection_id": null,
+      "metadata": {
+        "screen": "evaluation"
+      },
+      "created_at": 1789880630
+    },
+    {
+      "event_type": "screen_view",
+      "reflection_id": null,
+      "metadata": {
+        "screen": "participant-evaluation"
+      },
+      "created_at": 1789880630
+    },
+    {
+      "event_type": "quick_capture_screen_shown",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R1",
+        "task_id": "quick-capture"
+      },
+      "created_at": 1789880632
+    },
+    {
+      "event_type": "quick_capture_screen_shown",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R1",
+        "task_id": "quick-capture"
+      },
+      "created_at": 1789880632
+    },
+    {
+      "event_type": "quick_capture_timed",
+      "reflection_id": "705b7465-2d83-491a-9c9d-0558f8b28ac7",
+      "metadata": {
+        "requirement_id": "R1",
+        "char_count": 40,
+        "duration_ms": 16699,
+        "success": true,
+        "task_id": "quick-capture"
+      },
+      "created_at": 1789880648
+    },
+    {
+      "event_type": "block_added",
+      "reflection_id": "705b7465-2d83-491a-9c9d-0558f8b28ac7",
+      "metadata": {
+        "category": "situation",
+        "block_count": 1,
+        "task_id": "optional-structure"
+      },
+      "created_at": 1789880663
+    },
+    {
+      "event_type": "block_added",
+      "reflection_id": "705b7465-2d83-491a-9c9d-0558f8b28ac7",
+      "metadata": {
+        "category": "feelings",
+        "block_count": 2,
+        "task_id": "optional-structure"
+      },
+      "created_at": 1789880668
+    },
+    {
+      "event_type": "connection_created",
+      "reflection_id": "705b7465-2d83-491a-9c9d-0558f8b28ac7",
+      "metadata": {
+        "relation_type": "made_me_feel",
+        "connection_count": 1,
+        "requirement_id": "R15",
+        "task_id": "optional-structure"
+      },
+      "created_at": 1789880674
+    },
+    {
+      "event_type": "custom_block_added",
+      "reflection_id": "705b7465-2d83-491a-9c9d-0558f8b28ac7",
+      "metadata": {
+        "requirement_id": "R13",
+        "category": "situation",
+        "block_count": 3,
+        "task_id": "optional-structure"
+      },
+      "created_at": 1789880744
+    },
+    {
+      "event_type": "connection_created",
+      "reflection_id": "705b7465-2d83-491a-9c9d-0558f8b28ac7",
+      "metadata": {
+        "relation_type": "led_to",
+        "connection_count": 2,
+        "requirement_id": "R15",
+        "task_id": "optional-structure"
+      },
+      "created_at": 1789880753
+    },
+    {
+      "event_type": "workspace_saved",
+      "reflection_id": "705b7465-2d83-491a-9c9d-0558f8b28ac7",
+      "metadata": {
+        "block_count": 3,
+        "connection_count": 2,
+        "answered_count": 3,
+        "task_id": "optional-structure"
+      },
+      "created_at": 1789880780
+    },
+    {
+      "event_type": "prompt_default_changed",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R3",
+        "action": "starter",
+        "success": true,
+        "task_id": "persistent-default"
+      },
+      "created_at": 1789880789
+    },
+    {
+      "event_type": "quick_capture_screen_shown",
+      "reflection_id": null,
+      "metadata": {
+        "task_id": "persistent-default"
+      },
+      "created_at": 1789880790
+    },
+    {
+      "event_type": "quick_capture_screen_shown",
+      "reflection_id": null,
+      "metadata": {
+        "task_id": "persistent-default"
+      },
+      "created_at": 1789880790
+    },
+    {
+      "event_type": "quick_capture_timed",
+      "reflection_id": "40bad079-26f9-481a-989c-2915c1cb4fee",
+      "metadata": {
+        "char_count": 43,
+        "duration_ms": 14906,
+        "success": true,
+        "task_id": "persistent-default"
+      },
+      "created_at": 1789880805
+    },
+    {
+      "event_type": "quick_capture_screen_shown",
+      "reflection_id": null,
+      "metadata": {
+        "task_id": "persistent-default"
+      },
+      "created_at": 1789880810
+    },
+    {
+      "event_type": "quick_capture_screen_shown",
+      "reflection_id": null,
+      "metadata": {
+        "task_id": "persistent-default"
+      },
+      "created_at": 1789880810
+    },
+    {
+      "event_type": "quick_capture_timed",
+      "reflection_id": "b98f6f6e-dc75-48bd-9069-622ea82663ae",
+      "metadata": {
+        "char_count": 40,
+        "duration_ms": 12386,
+        "success": true,
+        "task_id": "persistent-default"
+      },
+      "created_at": 1789880823
+    },
+    {
+      "event_type": "free_writing_created",
+      "reflection_id": "7b78d66d-5862-4b92-a361-6e22ed22f652",
+      "metadata": {
+        "char_count": 93,
+        "task_id": "blank-writing"
+      },
+      "created_at": 1789880861
+    },
+    {
+      "event_type": "block_added",
+      "reflection_id": "705b7465-2d83-491a-9c9d-0558f8b28ac7",
+      "metadata": {
+        "category": "situation",
+        "block_count": 4,
+        "task_id": "generation-boundary"
+      },
+      "created_at": 1789880901
+    },
+    {
+      "event_type": "connection_created",
+      "reflection_id": "705b7465-2d83-491a-9c9d-0558f8b28ac7",
+      "metadata": {
+        "relation_type": "related_to",
+        "connection_count": 3,
+        "requirement_id": "R15",
+        "task_id": "generation-boundary"
+      },
+      "created_at": 1789880905
+    },
+    {
+      "event_type": "workspace_saved",
+      "reflection_id": "705b7465-2d83-491a-9c9d-0558f8b28ac7",
+      "metadata": {
+        "block_count": 4,
+        "connection_count": 3,
+        "answered_count": 4,
+        "task_id": "generation-boundary"
+      },
+      "created_at": 1789880919
+    },
+    {
+      "event_type": "generation_privacy_notice_shown",
+      "reflection_id": "705b7465-2d83-491a-9c9d-0558f8b28ac7",
+      "metadata": {
+        "requirement_id": "R10",
+        "selected_count": 4,
+        "unselected_count": 0,
+        "source_count": 4,
+        "task_id": "generation-boundary"
+      },
+      "created_at": 1789880923
+    },
+    {
+      "event_type": "journal_generated",
+      "reflection_id": "705b7465-2d83-491a-9c9d-0558f8b28ac7",
+      "metadata": {
+        "source_count": 4,
+        "success": true,
+        "task_id": "generation-boundary"
+      },
+      "created_at": 1789880933
+    },
+    {
+      "event_type": "journal_generation_started",
+      "reflection_id": "705b7465-2d83-491a-9c9d-0558f8b28ac7",
+      "metadata": {
+        "requirement_id": "R4",
+        "source_count": 4,
+        "selected_count": 4,
+        "unselected_count": 0,
+        "task_id": "generation-boundary"
+      },
+      "created_at": 1789880933
+    },
+    {
+      "event_type": "journal_saved",
+      "reflection_id": "705b7465-2d83-491a-9c9d-0558f8b28ac7",
+      "metadata": {
+        "source_count": 5,
+        "task_id": "generation-boundary"
+      },
+      "created_at": 1789880936
+    },
+    {
+      "event_type": "journal_paragraph_edited",
+      "reflection_id": "705b7465-2d83-491a-9c9d-0558f8b28ac7",
+      "metadata": {
+        "requirement_id": "R12",
+        "success": true,
+        "task_id": "source-editing"
+      },
+      "created_at": 1789880977
+    },
+    {
+      "event_type": "journal_paragraph_edited",
+      "reflection_id": "705b7465-2d83-491a-9c9d-0558f8b28ac7",
+      "metadata": {
+        "requirement_id": "R12",
+        "success": true,
+        "task_id": "source-editing"
+      },
+      "created_at": 1789880982
+    },
+    {
+      "event_type": "journal_paragraph_edited",
+      "reflection_id": "705b7465-2d83-491a-9c9d-0558f8b28ac7",
+      "metadata": {
+        "requirement_id": "R12",
+        "success": true,
+        "task_id": "source-editing"
+      },
+      "created_at": 1789880984
+    },
+    {
+      "event_type": "journal_saved",
+      "reflection_id": "705b7465-2d83-491a-9c9d-0558f8b28ac7",
+      "metadata": {
+        "source_count": 5,
+        "task_id": "source-editing"
+      },
+      "created_at": 1789880985
+    },
+    {
+      "event_type": "delete_action",
+      "reflection_id": "705b7465-2d83-491a-9c9d-0558f8b28ac7",
+      "metadata": {
+        "action": "generated_journal",
+        "task_id": "retention-deletion"
+      },
+      "created_at": 1789881010
+    },
+    {
+      "event_type": "screen_view",
+      "reflection_id": null,
+      "metadata": {
+        "screen": "evaluation"
+      },
+      "created_at": 1789881039
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R3",
+        "success": true
+      },
+      "created_at": 1789881094
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R2",
+        "success": true
+      },
+      "created_at": 1789881095
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R1",
+        "success": true
+      },
+      "created_at": 1789881096
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R4",
+        "success": true
+      },
+      "created_at": 1789881105
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R5",
+        "success": true
+      },
+      "created_at": 1789881111
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R6",
+        "success": true
+      },
+      "created_at": 1789881117
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R7",
+        "success": true
+      },
+      "created_at": 1789881130
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R8",
+        "success": true
+      },
+      "created_at": 1789881136
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R9",
+        "success": true
+      },
+      "created_at": 1789881146
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R10",
+        "success": true
+      },
+      "created_at": 1789881150
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R11",
+        "success": true
+      },
+      "created_at": 1789881265
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R13",
+        "success": true
+      },
+      "created_at": 1789881279
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R14",
+        "success": true
+      },
+      "created_at": 1789881287
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R15",
+        "success": true
+      },
+      "created_at": 1789881293
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R16",
+        "success": true
+      },
+      "created_at": 1789881318
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R17",
+        "success": true
+      },
+      "created_at": 1789881325
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R18",
+        "success": true
+      },
+      "created_at": 1789881332
+    },
+    {
+      "event_type": "evaluation_completed",
+      "reflection_id": null,
+      "metadata": {
+        "success": true
+      },
+      "created_at": 1789881425
+    }
+  ],
+  "requirement_checks": [
+    {
+      "requirement_id": "R1",
+      "status": "pass",
+      "evidence": {
+        "completed": true,
+        "duration_ms": 12386,
+        "help_count": 3,
+        "without_help": true,
+        "error_count": 2
+      },
+      "notes": "Capture exceeded the five-second acceptance threshold.",
+      "updated_at": 1789881096
+    },
+    {
+      "requirement_id": "R2",
+      "status": "pass",
+      "evidence": {
+        "completed": false,
+        "without_help": true,
+        "help_count": 0,
+        "understood": true
+      },
+      "notes": "Direct block dismissal was observed inside the entry screen without a help request.",
+      "updated_at": 1789881095
+    },
+    {
+      "requirement_id": "R3",
+      "status": "pass",
+      "evidence": {
+        "persisted": true,
+        "second_session_checked": true,
+        "predicted_correctly": true,
+        "understood": true
+      },
+      "notes": "Starter preference was checked across two newly created reflections.",
+      "updated_at": 1789881094
+    },
+    {
+      "requirement_id": "R4",
+      "status": "pass",
+      "evidence": {
+        "no_auto_generation": true,
+        "completed": true,
+        "generation_cancelled": true,
+        "predicted_correctly": true,
+        "critical_misunderstanding": true
+      },
+      "notes": "The prepared journal appeared only after the explicit generation action.",
+      "updated_at": 1789881105
+    },
+    {
+      "requirement_id": "R5",
+      "status": "pass",
+      "evidence": {
+        "source_identified": true,
+        "writer_vs_system_distinguished": true,
+        "without_help": true
+      },
+      "notes": "A source chip was inspected and the source relationship was understood.",
+      "updated_at": 1789881111
+    },
+    {
+      "requirement_id": "R6",
+      "status": "pass",
+      "evidence": {
+        "blank_completed": true,
+        "completed": true,
+        "without_help": true
+      },
+      "notes": "A complete entry was saved through blank writing without generation.",
+      "updated_at": 1789881117
+    },
+    {
+      "requirement_id": "R7",
+      "status": "pass",
+      "evidence": {
+        "selected_only_understood": true,
+        "selected_count": 4,
+        "unselected_count": 0,
+        "predicted_correctly": true,
+        "critical_misunderstanding": false,
+        "technical_check_passed": false
+      },
+      "notes": "Participant selected a subset and answered the selected-data comprehension check.",
+      "updated_at": 1789881130
+    },
+    {
+      "requirement_id": "R8",
+      "status": "critical",
+      "evidence": {
+        "delete_independent": true,
+        "predicted_correctly": false,
+        "critical_misunderstanding": true
+      },
+      "notes": "The participant showed a critical misunderstanding of the deletion scope.",
+      "updated_at": 1789881136
+    },
+    {
+      "requirement_id": "R9",
+      "status": "pass",
+      "evidence": {
+        "completed": true,
+        "tap_type_only": true,
+        "age_45_plus": false,
+        "help_count": 0,
+        "without_help": true
+      },
+      "notes": "Behavior recorded, but R9 requires aged-45+ coverage before it is treated as validated.",
+      "updated_at": 1789881146
+    },
+    {
+      "requirement_id": "R10",
+      "status": "critical",
+      "evidence": {
+        "notice_explained": false,
+        "predicted_correctly": false,
+        "critical_misunderstanding": true
+      },
+      "notes": "Processing-boundary comprehension was auto-scored from the participant checkpoint.",
+      "updated_at": 1789881150
+    },
+    {
+      "requirement_id": "R11",
+      "status": "pass",
+      "evidence": {
+        "reviewer_completed": true,
+        "technical_check_passed": true
+      },
+      "notes": "",
+      "updated_at": 1789881265
+    },
+    {
+      "requirement_id": "R12",
+      "status": "pass",
+      "evidence": {
+        "edit_saved_matches": true,
+        "completed": true
+      },
+      "notes": "A generated passage was edited and the edited journal was saved.",
+      "updated_at": 1789880987
+    },
+    {
+      "requirement_id": "R13",
+      "status": "issue",
+      "evidence": {
+        "custom_block_added": true,
+        "question_edited": false,
+        "reordered": false
+      },
+      "notes": "Customization actions were observed before generation.",
+      "updated_at": 1789881279
+    },
+    {
+      "requirement_id": "R14",
+      "status": "pass",
+      "evidence": {
+        "save_blocks_only_understood": true,
+        "save_entry_understood": true,
+        "export_understood": true,
+        "save_nothing_understood": true,
+        "predicted_correctly": true
+      },
+      "notes": "Distinct save/export/save-nothing outcomes were observed across the guided tasks.",
+      "updated_at": 1789881287
+    },
+    {
+      "requirement_id": "R15",
+      "status": "pass",
+      "evidence": {
+        "connection_created": true,
+        "connection_labeled": true,
+        "without_help": true
+      },
+      "notes": "",
+      "updated_at": 1789881293
+    },
+    {
+      "requirement_id": "R16",
+      "status": "pass",
+      "evidence": {
+        "suggestion_requested": true,
+        "suggestion_rejected": true,
+        "suggestion_accepted": true,
+        "suggestion_understood_optional": true
+      },
+      "notes": "",
+      "updated_at": 1789881318
+    },
+    {
+      "requirement_id": "R17",
+      "status": "issue",
+      "evidence": {
+        "block_found": true
+      },
+      "notes": "",
+      "updated_at": 1789881325
+    },
+    {
+      "requirement_id": "R18",
+      "status": "issue",
+      "evidence": {},
+      "notes": "",
+      "updated_at": 1789881332
+    }
+  ],
+  "governance_review": null,
+  "guided_tasks": [
+    {
+      "task_id": "quick-capture",
+      "requirement_ids": [
+        "R1",
+        "R9"
+      ],
+      "started_at_ms": 1789880632199,
+      "completed_at_ms": 1789880651808,
+      "duration_ms": 19596,
+      "status": "issue",
+      "objective": {
+        "completed": true,
+        "duration_ms": 16699,
+        "within_5s": false
+      },
+      "comprehension": {
+        "expected_behavior_correct": false
+      },
+      "reflection_id": "705b7465-2d83-491a-9c9d-0558f8b28ac7"
+    },
+    {
+      "task_id": "optional-structure",
+      "requirement_ids": [
+        "R2",
+        "R13"
+      ],
+      "started_at_ms": 1789880657204,
+      "completed_at_ms": 1789880781904,
+      "duration_ms": 124694,
+      "status": "issue",
+      "objective": {
+        "custom_block_added": true,
+        "workspace_saved": true,
+        "answered_count": 3,
+        "task_success": false,
+        "completed": true,
+        "duration_ms": 124694
+      },
+      "comprehension": {},
+      "reflection_id": "705b7465-2d83-491a-9c9d-0558f8b28ac7"
+    },
+    {
+      "task_id": "persistent-default",
+      "requirement_ids": [
+        "R3"
+      ],
+      "started_at_ms": 1789880785219,
+      "completed_at_ms": 1789880823182,
+      "duration_ms": 37957,
+      "status": "issue",
+      "objective": {
+        "preference_changed": true,
+        "first_entry_starter_count": 3,
+        "second_entry_starter_count": 3,
+        "completed": true,
+        "duration_ms": 37957
+      },
+      "comprehension": {
+        "expected_behavior_correct": false
+      },
+      "reflection_id": "40bad079-26f9-481a-989c-2915c1cb4fee"
+    },
+    {
+      "task_id": "blank-writing",
+      "requirement_ids": [
+        "R6"
+      ],
+      "started_at_ms": 1789880827965,
+      "completed_at_ms": 1789880861492,
+      "duration_ms": 33517,
+      "status": "pass",
+      "objective": {
+        "blank_saved": true,
+        "completed": true,
+        "duration_ms": 33517
+      },
+      "comprehension": {},
+      "reflection_id": null
+    },
+    {
+      "task_id": "generation-boundary",
+      "requirement_ids": [
+        "R4",
+        "R7",
+        "R10"
+      ],
+      "started_at_ms": 1789880865875,
+      "completed_at_ms": 1789880936575,
+      "duration_ms": 70687,
+      "status": "critical",
+      "objective": {
+        "privacy_notice_seen": true,
+        "selected_count": 4,
+        "unselected_count": 0,
+        "generation_requested": true,
+        "journal_generated": true,
+        "generated_after_request": true,
+        "journal_saved": true,
+        "completed": true,
+        "duration_ms": 70687
+      },
+      "comprehension": {
+        "selected_data_correct": false,
+        "processor_correct": true,
+        "sent_already_correct": false,
+        "correct_count": 1,
+        "total_count": 3
+      },
+      "reflection_id": "705b7465-2d83-491a-9c9d-0558f8b28ac7"
+    },
+    {
+      "task_id": "source-editing",
+      "requirement_ids": [
+        "R5",
+        "R12"
+      ],
+      "started_at_ms": 1789880946538,
+      "completed_at_ms": 1789880987375,
+      "duration_ms": 40825,
+      "status": "issue",
+      "objective": {
+        "paragraph_edited": true,
+        "journal_saved": true,
+        "task_success": false,
+        "completed": true,
+        "duration_ms": 40825
+      },
+      "comprehension": {},
+      "reflection_id": "705b7465-2d83-491a-9c9d-0558f8b28ac7"
+    },
+    {
+      "task_id": "retention-deletion",
+      "requirement_ids": [
+        "R8",
+        "R14"
+      ],
+      "started_at_ms": 1789881005380,
+      "completed_at_ms": 1789881014319,
+      "duration_ms": 8922,
+      "status": "critical",
+      "objective": {
+        "journal_deleted": true,
+        "blocks_remained": true,
+        "generated_entry_removed": true,
+        "save_blocks_only_done": true,
+        "save_entry_done": true,
+        "completed": true,
+        "duration_ms": 8922
+      },
+      "comprehension": {
+        "retention_state_correct": true,
+        "delete_scope_correct": false
+      },
+      "reflection_id": "705b7465-2d83-491a-9c9d-0558f8b28ac7"
+    }
+  ]
+}

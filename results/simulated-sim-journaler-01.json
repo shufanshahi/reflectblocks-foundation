@@ -1,0 +1,855 @@
+{
+  "session": {
+    "id": "65e37264-df46-48c8-945d-0a7609051255",
+    "user_email": "simulated.persona@example.invalid",
+    "participant_code": "SIM-JOURNALER-01",
+    "device_type": "tablet",
+    "age_group": "45_59",
+    "text_editing_experience": "some",
+    "started_at": 1789926000,
+    "completed_at": 1789926458,
+    "sus": [
+      3,
+      3,
+      3,
+      4,
+      3,
+      3,
+      3,
+      3,
+      3,
+      4
+    ],
+    "custom": {
+      "ease_rating": 3,
+      "control_rating": 4,
+      "privacy_clarity_rating": 2,
+      "comments": ""
+    }
+  },
+  "_simulated": {
+    "is_simulated": true,
+    "persona": "SIM-JOURNALER-01",
+    "note": "Synthetic persona: experienced journaler, prefers unstructured writing, tablet. Not a real participant."
+  },
+  "events": [
+    {
+      "event_type": "evaluation_started",
+      "reflection_id": null,
+      "metadata": {
+        "screen": "evaluation"
+      },
+      "created_at": 1789926000
+    },
+    {
+      "event_type": "screen_view",
+      "reflection_id": null,
+      "metadata": {
+        "screen": "participant-evaluation"
+      },
+      "created_at": 1789926000
+    },
+    {
+      "event_type": "quick_capture_screen_shown",
+      "reflection_id": "9b0093c3-4445-4919-8bfa-e2bb0fa66de6",
+      "metadata": {
+        "requirement_id": "R1",
+        "task_id": "quick-capture"
+      },
+      "created_at": 1789926003
+    },
+    {
+      "event_type": "quick_capture_timed",
+      "reflection_id": "9b0093c3-4445-4919-8bfa-e2bb0fa66de6",
+      "metadata": {
+        "duration_ms": 10200,
+        "requirement_id": "R1",
+        "task_id": "quick-capture"
+      },
+      "created_at": 1789926006
+    },
+    {
+      "event_type": "quick_thought_saved",
+      "reflection_id": "9b0093c3-4445-4919-8bfa-e2bb0fa66de6",
+      "metadata": {
+        "char_count": 210,
+        "task_id": "quick-capture"
+      },
+      "created_at": 1789926009
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R1",
+        "success": true
+      },
+      "created_at": 1789926013
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R9",
+        "success": true
+      },
+      "created_at": 1789926014
+    },
+    {
+      "event_type": "block_added",
+      "reflection_id": "9b0093c3-4445-4919-8bfa-e2bb0fa66de6",
+      "metadata": {
+        "category": "situation",
+        "block_count": 1,
+        "task_id": "optional-structure"
+      },
+      "created_at": 1789926037
+    },
+    {
+      "event_type": "block_dismissed",
+      "reflection_id": "9b0093c3-4445-4919-8bfa-e2bb0fa66de6",
+      "metadata": {
+        "requirement_id": "R2",
+        "success": true,
+        "was_answered": false,
+        "task_id": "optional-structure"
+      },
+      "created_at": 1789926060
+    },
+    {
+      "event_type": "block_dismissed",
+      "reflection_id": "9b0093c3-4445-4919-8bfa-e2bb0fa66de6",
+      "metadata": {
+        "requirement_id": "R2",
+        "success": true,
+        "was_answered": true,
+        "task_id": "optional-structure"
+      },
+      "created_at": 1789926083
+    },
+    {
+      "event_type": "block_dismiss_undone",
+      "reflection_id": "9b0093c3-4445-4919-8bfa-e2bb0fa66de6",
+      "metadata": {
+        "requirement_id": "R2",
+        "success": true,
+        "task_id": "optional-structure"
+      },
+      "created_at": 1789926106
+    },
+    {
+      "event_type": "custom_block_added",
+      "reflection_id": "9b0093c3-4445-4919-8bfa-e2bb0fa66de6",
+      "metadata": {
+        "category": "meaning",
+        "task_id": "optional-structure"
+      },
+      "created_at": 1789926129
+    },
+    {
+      "event_type": "block_question_edited",
+      "reflection_id": "9b0093c3-4445-4919-8bfa-e2bb0fa66de6",
+      "metadata": {
+        "requirement_id": "R13",
+        "success": true,
+        "task_id": "optional-structure"
+      },
+      "created_at": 1789926152
+    },
+    {
+      "event_type": "block_reordered",
+      "reflection_id": "9b0093c3-4445-4919-8bfa-e2bb0fa66de6",
+      "metadata": {
+        "requirement_id": "R13",
+        "success": true,
+        "task_id": "optional-structure"
+      },
+      "created_at": 1789926175
+    },
+    {
+      "event_type": "workspace_saved",
+      "reflection_id": "9b0093c3-4445-4919-8bfa-e2bb0fa66de6",
+      "metadata": {
+        "block_count": 2,
+        "connection_count": 0,
+        "answered_count": 1,
+        "task_id": "optional-structure"
+      },
+      "created_at": 1789926198
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R2",
+        "success": true
+      },
+      "created_at": 1789926202
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R13",
+        "success": true
+      },
+      "created_at": 1789926203
+    },
+    {
+      "event_type": "prompt_default_changed",
+      "reflection_id": "9b0093c3-4445-4919-8bfa-e2bb0fa66de6",
+      "metadata": {
+        "action": "starter",
+        "task_id": "persistent-default"
+      },
+      "created_at": 1789926213
+    },
+    {
+      "event_type": "prompt_default_changed",
+      "reflection_id": "9b0093c3-4445-4919-8bfa-e2bb0fa66de6",
+      "metadata": {
+        "action": "manual",
+        "task_id": "persistent-default"
+      },
+      "created_at": 1789926223
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R3",
+        "success": true
+      },
+      "created_at": 1789926227
+    },
+    {
+      "event_type": "free_writing_created",
+      "reflection_id": "9b0093c3-4445-4919-8bfa-e2bb0fa66de6",
+      "metadata": {
+        "char_count": 1890,
+        "task_id": "blank-writing"
+      },
+      "created_at": 1789926260
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R6",
+        "success": true
+      },
+      "created_at": 1789926264
+    },
+    {
+      "event_type": "generation_privacy_notice_shown",
+      "reflection_id": "9b0093c3-4445-4919-8bfa-e2bb0fa66de6",
+      "metadata": {
+        "selected_count": 1,
+        "unselected_count": 1,
+        "requirement_id": "R10",
+        "task_id": "generation-boundary"
+      },
+      "created_at": 1789926281
+    },
+    {
+      "event_type": "journal_generation_started",
+      "reflection_id": "9b0093c3-4445-4919-8bfa-e2bb0fa66de6",
+      "metadata": {
+        "selected_count": 1,
+        "task_id": "generation-boundary"
+      },
+      "created_at": 1789926298
+    },
+    {
+      "event_type": "journal_generated",
+      "reflection_id": "9b0093c3-4445-4919-8bfa-e2bb0fa66de6",
+      "metadata": {
+        "source_count": 1,
+        "success": true,
+        "task_id": "generation-boundary"
+      },
+      "created_at": 1789926315
+    },
+    {
+      "event_type": "discard_unsaved",
+      "reflection_id": "9b0093c3-4445-4919-8bfa-e2bb0fa66de6",
+      "metadata": {
+        "action": "generated_journal",
+        "task_id": "generation-boundary"
+      },
+      "created_at": 1789926332
+    },
+    {
+      "event_type": "participant_help_requested",
+      "reflection_id": "9b0093c3-4445-4919-8bfa-e2bb0fa66de6",
+      "metadata": {
+        "help_count": 1,
+        "task_id": "generation-boundary"
+      },
+      "created_at": 1789926335
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R4",
+        "success": true
+      },
+      "created_at": 1789926339
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R7",
+        "success": true
+      },
+      "created_at": 1789926340
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R10",
+        "success": true
+      },
+      "created_at": 1789926341
+    },
+    {
+      "event_type": "journal_source_inspected",
+      "reflection_id": "9b0093c3-4445-4919-8bfa-e2bb0fa66de6",
+      "metadata": {
+        "requirement_id": "R5",
+        "success": true,
+        "task_id": "source-editing"
+      },
+      "created_at": 1789926354
+    },
+    {
+      "event_type": "journal_paragraph_edited",
+      "reflection_id": "9b0093c3-4445-4919-8bfa-e2bb0fa66de6",
+      "metadata": {
+        "requirement_id": "R12",
+        "success": true,
+        "task_id": "source-editing"
+      },
+      "created_at": 1789926367
+    },
+    {
+      "event_type": "journal_saved",
+      "reflection_id": "9b0093c3-4445-4919-8bfa-e2bb0fa66de6",
+      "metadata": {
+        "source_count": 1,
+        "task_id": "source-editing"
+      },
+      "created_at": 1789926380
+    },
+    {
+      "event_type": "participant_help_requested",
+      "reflection_id": "9b0093c3-4445-4919-8bfa-e2bb0fa66de6",
+      "metadata": {
+        "help_count": 1,
+        "task_id": "source-editing"
+      },
+      "created_at": 1789926383
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R5",
+        "success": true
+      },
+      "created_at": 1789926387
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R12",
+        "success": true
+      },
+      "created_at": 1789926388
+    },
+    {
+      "event_type": "export_clicked",
+      "reflection_id": "9b0093c3-4445-4919-8bfa-e2bb0fa66de6",
+      "metadata": {
+        "format": "txt",
+        "task_id": "retention-deletion"
+      },
+      "created_at": 1789926402
+    },
+    {
+      "event_type": "discard_unsaved",
+      "reflection_id": "9b0093c3-4445-4919-8bfa-e2bb0fa66de6",
+      "metadata": {
+        "action": "journal",
+        "task_id": "retention-deletion"
+      },
+      "created_at": 1789926416
+    },
+    {
+      "event_type": "delete_action",
+      "reflection_id": "9b0093c3-4445-4919-8bfa-e2bb0fa66de6",
+      "metadata": {
+        "action": "generated_journal",
+        "task_id": "retention-deletion"
+      },
+      "created_at": 1789926430
+    },
+    {
+      "event_type": "participant_help_requested",
+      "reflection_id": "9b0093c3-4445-4919-8bfa-e2bb0fa66de6",
+      "metadata": {
+        "help_count": 1,
+        "task_id": "retention-deletion"
+      },
+      "created_at": 1789926433
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R8",
+        "success": true
+      },
+      "created_at": 1789926437
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R14",
+        "success": true
+      },
+      "created_at": 1789926438
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R11",
+        "success": true
+      },
+      "created_at": 1789926441
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R15",
+        "success": true
+      },
+      "created_at": 1789926444
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R16",
+        "success": true
+      },
+      "created_at": 1789926447
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R17",
+        "success": true
+      },
+      "created_at": 1789926450
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R18",
+        "success": true
+      },
+      "created_at": 1789926453
+    },
+    {
+      "event_type": "evaluation_completed",
+      "reflection_id": null,
+      "metadata": {
+        "success": true
+      },
+      "created_at": 1789926458
+    }
+  ],
+  "requirement_checks": [
+    {
+      "requirement_id": "R1",
+      "status": "issue",
+      "evidence": {
+        "completed": true,
+        "duration_ms": 10200,
+        "help_count": 0,
+        "without_help": true,
+        "error_count": 1
+      },
+      "notes": "Capture exceeded the five-second acceptance threshold.",
+      "updated_at": 1789926012
+    },
+    {
+      "requirement_id": "R2",
+      "status": "pass",
+      "evidence": {
+        "completed": true,
+        "without_help": true,
+        "help_count": 0,
+        "understood": true
+      },
+      "notes": "Direct block dismissal was observed inside the entry screen without a help request.",
+      "updated_at": 1789926201
+    },
+    {
+      "requirement_id": "R3",
+      "status": "pass",
+      "evidence": {
+        "persisted": true,
+        "second_session_checked": true,
+        "predicted_correctly": true
+      },
+      "notes": "Starter preference was checked across two newly created reflections.",
+      "updated_at": 1789926226
+    },
+    {
+      "requirement_id": "R4",
+      "status": "pass",
+      "evidence": {
+        "no_auto_generation": true,
+        "completed": true,
+        "predicted_correctly": true
+      },
+      "notes": "The prepared journal appeared only after the explicit generation action.",
+      "updated_at": 1789926338
+    },
+    {
+      "requirement_id": "R5",
+      "status": "pass",
+      "evidence": {
+        "source_identified": true,
+        "writer_vs_system_distinguished": true,
+        "without_help": false
+      },
+      "notes": "A source chip was inspected and the source relationship was understood.",
+      "updated_at": 1789926386
+    },
+    {
+      "requirement_id": "R6",
+      "status": "pass",
+      "evidence": {
+        "blank_completed": true,
+        "completed": true,
+        "no_auto_generation": true
+      },
+      "notes": "A complete entry was saved through blank writing without generation.",
+      "updated_at": 1789926263
+    },
+    {
+      "requirement_id": "R7",
+      "status": "issue",
+      "evidence": {
+        "selected_only_understood": false,
+        "selected_count": 1,
+        "unselected_count": 1,
+        "predicted_correctly": false
+      },
+      "notes": "Participant selected a subset and answered the selected-data comprehension check.",
+      "updated_at": 1789926339
+    },
+    {
+      "requirement_id": "R8",
+      "status": "pass",
+      "evidence": {
+        "delete_independent": true,
+        "predicted_correctly": true,
+        "critical_misunderstanding": false
+      },
+      "notes": "Deletion was checked against the resulting stored state and participant prediction.",
+      "updated_at": 1789926436
+    },
+    {
+      "requirement_id": "R9",
+      "status": "pass",
+      "evidence": {
+        "completed": true,
+        "tap_type_only": true,
+        "without_help": true,
+        "age_45_plus": true
+      },
+      "notes": "Only visible tap/click-and-type controls were needed.",
+      "updated_at": 1789926013
+    },
+    {
+      "requirement_id": "R10",
+      "status": "critical",
+      "evidence": {
+        "notice_explained": false,
+        "predicted_correctly": true,
+        "critical_misunderstanding": true
+      },
+      "notes": "Processing-boundary comprehension was auto-scored from the participant checkpoint.",
+      "updated_at": 1789926340
+    },
+    {
+      "requirement_id": "R11",
+      "status": "not_tested",
+      "evidence": {},
+      "notes": "No privacy/domain reviewer present for this session.",
+      "updated_at": 1789926440
+    },
+    {
+      "requirement_id": "R12",
+      "status": "pass",
+      "evidence": {
+        "edit_saved_matches": true,
+        "completed": true,
+        "without_help": false
+      },
+      "notes": "A generated passage was edited and the edited journal was saved.",
+      "updated_at": 1789926387
+    },
+    {
+      "requirement_id": "R13",
+      "status": "pass",
+      "evidence": {
+        "custom_block_added": true,
+        "question_edited": true,
+        "reordered": true,
+        "understood": true
+      },
+      "notes": "Customization actions were observed before generation.",
+      "updated_at": 1789926202
+    },
+    {
+      "requirement_id": "R14",
+      "status": "pass",
+      "evidence": {
+        "save_blocks_only_understood": true,
+        "save_entry_understood": true,
+        "export_understood": true,
+        "save_nothing_understood": true,
+        "predicted_correctly": true
+      },
+      "notes": "Distinct save/export/save-nothing outcomes were observed across the guided tasks.",
+      "updated_at": 1789926437
+    },
+    {
+      "requirement_id": "R15",
+      "status": "issue",
+      "evidence": {
+        "connection_created": false,
+        "connection_labeled": false,
+        "without_help": true
+      },
+      "notes": "Connector dots are small on a tablet; dragged the block instead of the dot several times and gave up.",
+      "updated_at": 1789926443
+    },
+    {
+      "requirement_id": "R16",
+      "status": "pass",
+      "evidence": {
+        "suggestion_requested": true,
+        "suggestion_accepted": false,
+        "suggestion_rejected": true,
+        "suggestion_understood_optional": true
+      },
+      "notes": "Looked at the suggestions and dismissed them as not matching how they write.",
+      "updated_at": 1789926446
+    },
+    {
+      "requirement_id": "R17",
+      "status": "issue",
+      "evidence": {
+        "block_found": true,
+        "without_help": false,
+        "duration_ms": 33200
+      },
+      "notes": "Pinch-zoom fought with page scroll on the tablet; needed the Fit control pointed out.",
+      "updated_at": 1789926449
+    },
+    {
+      "requirement_id": "R18",
+      "status": "not_tested",
+      "evidence": {},
+      "notes": "Touch-only device; keyboard-only capture was not applicable.",
+      "updated_at": 1789926452
+    }
+  ],
+  "governance_review": null,
+  "guided_tasks": [
+    {
+      "task_id": "quick-capture",
+      "requirement_ids": [
+        "R1",
+        "R9"
+      ],
+      "started_at_ms": 1789926000000,
+      "completed_at_ms": 1789926022700,
+      "duration_ms": 22700,
+      "status": "issue",
+      "objective": {
+        "duration_ms": 22700,
+        "within_5s": false,
+        "help_count": 0,
+        "error_count": 1,
+        "age_45_plus": true,
+        "completed": true
+      },
+      "comprehension": {
+        "expected_behavior_correct": true
+      },
+      "reflection_id": "9b0093c3-4445-4919-8bfa-e2bb0fa66de6"
+    },
+    {
+      "task_id": "optional-structure",
+      "requirement_ids": [
+        "R2",
+        "R13"
+      ],
+      "started_at_ms": 1789926014000,
+      "completed_at_ms": 1789926155500,
+      "duration_ms": 141500,
+      "status": "pass",
+      "objective": {
+        "dismissed_block": true,
+        "custom_block_added": true,
+        "question_edited": true,
+        "reordered": true,
+        "workspace_saved": true,
+        "answered_count": 1,
+        "help_count": 0,
+        "completed": true,
+        "duration_ms": 141500
+      },
+      "comprehension": {},
+      "reflection_id": "9b0093c3-4445-4919-8bfa-e2bb0fa66de6"
+    },
+    {
+      "task_id": "persistent-default",
+      "requirement_ids": [
+        "R3"
+      ],
+      "started_at_ms": 1789926203000,
+      "completed_at_ms": 1789926264900,
+      "duration_ms": 61900,
+      "status": "pass",
+      "objective": {
+        "preference_changed": true,
+        "first_entry_starter_count": 3,
+        "second_entry_starter_count": 3,
+        "completed": true,
+        "duration_ms": 61900
+      },
+      "comprehension": {
+        "expected_behavior_correct": true
+      },
+      "reflection_id": "9b0093c3-4445-4919-8bfa-e2bb0fa66de6"
+    },
+    {
+      "task_id": "blank-writing",
+      "requirement_ids": [
+        "R6"
+      ],
+      "started_at_ms": 1789926227000,
+      "completed_at_ms": 1789926425300,
+      "duration_ms": 198300,
+      "status": "pass",
+      "objective": {
+        "blank_saved": true,
+        "completed": true,
+        "duration_ms": 198300
+      },
+      "comprehension": {},
+      "reflection_id": null
+    },
+    {
+      "task_id": "generation-boundary",
+      "requirement_ids": [
+        "R4",
+        "R7",
+        "R10"
+      ],
+      "started_at_ms": 1789926264000,
+      "completed_at_ms": 1789926368700,
+      "duration_ms": 104700,
+      "status": "critical",
+      "objective": {
+        "privacy_notice_seen": true,
+        "generation_requested": true,
+        "journal_generated": true,
+        "generated_after_request": true,
+        "journal_saved": false,
+        "selected_count": 1,
+        "unselected_count": 1,
+        "help_count": 1,
+        "completed": true,
+        "duration_ms": 104700
+      },
+      "comprehension": {
+        "selected_data_correct": false,
+        "processor_correct": false,
+        "sent_already_correct": true,
+        "correct_count": 1,
+        "total_count": 3
+      },
+      "reflection_id": "9b0093c3-4445-4919-8bfa-e2bb0fa66de6"
+    },
+    {
+      "task_id": "source-editing",
+      "requirement_ids": [
+        "R5",
+        "R12"
+      ],
+      "started_at_ms": 1789926341000,
+      "completed_at_ms": 1789926423400,
+      "duration_ms": 82400,
+      "status": "pass",
+      "objective": {
+        "source_inspected": true,
+        "paragraph_edited": true,
+        "journal_saved": true,
+        "help_count": 1,
+        "completed": true,
+        "duration_ms": 82400
+      },
+      "comprehension": {
+        "source_meaning_correct": true,
+        "source_checkpoint_answered": true
+      },
+      "reflection_id": "9b0093c3-4445-4919-8bfa-e2bb0fa66de6"
+    },
+    {
+      "task_id": "retention-deletion",
+      "requirement_ids": [
+        "R8",
+        "R14"
+      ],
+      "started_at_ms": 1789926388000,
+      "completed_at_ms": 1789926477200,
+      "duration_ms": 89200,
+      "status": "pass",
+      "objective": {
+        "save_blocks_only_done": true,
+        "save_entry_done": true,
+        "save_nothing_used": true,
+        "exported": true,
+        "journal_deleted": true,
+        "blocks_remained": true,
+        "generated_entry_removed": true,
+        "help_count": 1,
+        "completed": true,
+        "duration_ms": 89200
+      },
+      "comprehension": {
+        "delete_scope_correct": true,
+        "retention_state_correct": true
+      },
+      "reflection_id": "9b0093c3-4445-4919-8bfa-e2bb0fa66de6"
+    }
+  ]
+}

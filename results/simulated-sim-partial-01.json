@@ -1,0 +1,362 @@
+{
+  "session": {
+    "id": "7e67440b-3089-467c-92bf-3d1c2671a529",
+    "user_email": "simulated.persona@example.invalid",
+    "participant_code": "SIM-PARTIAL-01",
+    "device_type": "desktop",
+    "age_group": "60_plus",
+    "text_editing_experience": "limited",
+    "started_at": 1789954800,
+    "completed_at": null,
+    "sus": null,
+    "custom": {}
+  },
+  "_simulated": {
+    "is_simulated": true,
+    "persona": "SIM-PARTIAL-01",
+    "note": "Synthetic persona: session abandoned after three tasks. Not a real participant."
+  },
+  "events": [
+    {
+      "event_type": "evaluation_started",
+      "reflection_id": null,
+      "metadata": {
+        "screen": "evaluation"
+      },
+      "created_at": 1789954800
+    },
+    {
+      "event_type": "screen_view",
+      "reflection_id": null,
+      "metadata": {
+        "screen": "participant-evaluation"
+      },
+      "created_at": 1789954800
+    },
+    {
+      "event_type": "quick_capture_screen_shown",
+      "reflection_id": "c287f267-882c-47dc-87a9-567a1c3b9842",
+      "metadata": {
+        "requirement_id": "R1",
+        "task_id": "quick-capture"
+      },
+      "created_at": 1789954806
+    },
+    {
+      "event_type": "quick_capture_timed",
+      "reflection_id": "c287f267-882c-47dc-87a9-567a1c3b9842",
+      "metadata": {
+        "duration_ms": 22800,
+        "requirement_id": "R1",
+        "task_id": "quick-capture"
+      },
+      "created_at": 1789954812
+    },
+    {
+      "event_type": "quick_thought_saved",
+      "reflection_id": "c287f267-882c-47dc-87a9-567a1c3b9842",
+      "metadata": {
+        "char_count": 80,
+        "task_id": "quick-capture"
+      },
+      "created_at": 1789954818
+    },
+    {
+      "event_type": "participant_help_requested",
+      "reflection_id": "c287f267-882c-47dc-87a9-567a1c3b9842",
+      "metadata": {
+        "help_count": 1,
+        "task_id": "quick-capture"
+      },
+      "created_at": 1789954821
+    },
+    {
+      "event_type": "participant_help_requested",
+      "reflection_id": "c287f267-882c-47dc-87a9-567a1c3b9842",
+      "metadata": {
+        "help_count": 1,
+        "task_id": "quick-capture"
+      },
+      "created_at": 1789954824
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R1",
+        "success": true
+      },
+      "created_at": 1789954828
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R9",
+        "success": true
+      },
+      "created_at": 1789954829
+    },
+    {
+      "event_type": "block_added",
+      "reflection_id": "c287f267-882c-47dc-87a9-567a1c3b9842",
+      "metadata": {
+        "category": "situation",
+        "block_count": 1,
+        "task_id": "optional-structure"
+      },
+      "created_at": 1789954868
+    },
+    {
+      "event_type": "workspace_saved",
+      "reflection_id": "c287f267-882c-47dc-87a9-567a1c3b9842",
+      "metadata": {
+        "block_count": 1,
+        "connection_count": 0,
+        "answered_count": 1,
+        "task_id": "optional-structure"
+      },
+      "created_at": 1789954907
+    },
+    {
+      "event_type": "participant_help_requested",
+      "reflection_id": "c287f267-882c-47dc-87a9-567a1c3b9842",
+      "metadata": {
+        "help_count": 1,
+        "task_id": "optional-structure"
+      },
+      "created_at": 1789954910
+    },
+    {
+      "event_type": "participant_help_requested",
+      "reflection_id": "c287f267-882c-47dc-87a9-567a1c3b9842",
+      "metadata": {
+        "help_count": 1,
+        "task_id": "optional-structure"
+      },
+      "created_at": 1789954913
+    },
+    {
+      "event_type": "participant_help_requested",
+      "reflection_id": "c287f267-882c-47dc-87a9-567a1c3b9842",
+      "metadata": {
+        "help_count": 1,
+        "task_id": "optional-structure"
+      },
+      "created_at": 1789954916
+    },
+    {
+      "event_type": "participant_help_requested",
+      "reflection_id": "c287f267-882c-47dc-87a9-567a1c3b9842",
+      "metadata": {
+        "help_count": 1,
+        "task_id": "optional-structure"
+      },
+      "created_at": 1789954919
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R2",
+        "success": true
+      },
+      "created_at": 1789954923
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R13",
+        "success": true
+      },
+      "created_at": 1789954924
+    },
+    {
+      "event_type": "participant_help_requested",
+      "reflection_id": "c287f267-882c-47dc-87a9-567a1c3b9842",
+      "metadata": {
+        "help_count": 1,
+        "task_id": "persistent-default"
+      },
+      "created_at": 1789954927
+    },
+    {
+      "event_type": "participant_help_requested",
+      "reflection_id": "c287f267-882c-47dc-87a9-567a1c3b9842",
+      "metadata": {
+        "help_count": 1,
+        "task_id": "persistent-default"
+      },
+      "created_at": 1789954930
+    },
+    {
+      "event_type": "participant_help_requested",
+      "reflection_id": "c287f267-882c-47dc-87a9-567a1c3b9842",
+      "metadata": {
+        "help_count": 1,
+        "task_id": "persistent-default"
+      },
+      "created_at": 1789954933
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R3",
+        "success": true
+      },
+      "created_at": 1789954937
+    },
+    {
+      "event_type": "evaluation_requirement_saved",
+      "reflection_id": null,
+      "metadata": {
+        "requirement_id": "R11",
+        "success": true
+      },
+      "created_at": 1789954940
+    }
+  ],
+  "requirement_checks": [
+    {
+      "requirement_id": "R1",
+      "status": "issue",
+      "evidence": {
+        "completed": true,
+        "duration_ms": 22800,
+        "help_count": 2,
+        "without_help": false,
+        "error_count": 2
+      },
+      "notes": "Capture exceeded the five-second acceptance threshold.",
+      "updated_at": 1789954827
+    },
+    {
+      "requirement_id": "R2",
+      "status": "issue",
+      "evidence": {
+        "completed": false,
+        "without_help": false,
+        "help_count": 4,
+        "understood": false
+      },
+      "notes": "Block dismissal was incomplete or the participant requested help.",
+      "updated_at": 1789954922
+    },
+    {
+      "requirement_id": "R3",
+      "status": "issue",
+      "evidence": {
+        "persisted": false,
+        "second_session_checked": true,
+        "predicted_correctly": false
+      },
+      "notes": "Starter preference was checked across two newly created reflections.",
+      "updated_at": 1789954936
+    },
+    {
+      "requirement_id": "R9",
+      "status": "pass",
+      "evidence": {
+        "completed": true,
+        "tap_type_only": true,
+        "without_help": false,
+        "age_45_plus": true
+      },
+      "notes": "Only visible tap/click-and-type controls were needed.",
+      "updated_at": 1789954828
+    },
+    {
+      "requirement_id": "R11",
+      "status": "not_tested",
+      "evidence": {},
+      "notes": "Session ended before the governance review.",
+      "updated_at": 1789954939
+    },
+    {
+      "requirement_id": "R13",
+      "status": "issue",
+      "evidence": {
+        "custom_block_added": false,
+        "question_edited": false,
+        "reordered": false,
+        "understood": false
+      },
+      "notes": "Customization actions were observed before generation.",
+      "updated_at": 1789954923
+    }
+  ],
+  "governance_review": null,
+  "guided_tasks": [
+    {
+      "task_id": "quick-capture",
+      "requirement_ids": [
+        "R1",
+        "R9"
+      ],
+      "started_at_ms": 1789954800000,
+      "completed_at_ms": 1789954841200,
+      "duration_ms": 41200,
+      "status": "issue",
+      "objective": {
+        "duration_ms": 41200,
+        "within_5s": false,
+        "help_count": 2,
+        "error_count": 2,
+        "age_45_plus": true,
+        "completed": true
+      },
+      "comprehension": {
+        "expected_behavior_correct": false
+      },
+      "reflection_id": "c287f267-882c-47dc-87a9-567a1c3b9842"
+    },
+    {
+      "task_id": "optional-structure",
+      "requirement_ids": [
+        "R2",
+        "R13"
+      ],
+      "started_at_ms": 1789954829000,
+      "completed_at_ms": 1789955067400,
+      "duration_ms": 238400,
+      "status": "issue",
+      "objective": {
+        "dismissed_block": false,
+        "custom_block_added": false,
+        "question_edited": false,
+        "reordered": false,
+        "workspace_saved": true,
+        "answered_count": 1,
+        "help_count": 4,
+        "completed": true,
+        "duration_ms": 238400
+      },
+      "comprehension": {},
+      "reflection_id": "c287f267-882c-47dc-87a9-567a1c3b9842"
+    },
+    {
+      "task_id": "persistent-default",
+      "requirement_ids": [
+        "R3"
+      ],
+      "started_at_ms": 1789954924000,
+      "completed_at_ms": 1789955026700,
+      "duration_ms": 102700,
+      "status": "issue",
+      "objective": {
+        "preference_changed": false,
+        "first_entry_starter_count": 0,
+        "second_entry_starter_count": 0,
+        "help_count": 3,
+        "completed": true,
+        "duration_ms": 102700
+      },
+      "comprehension": {
+        "expected_behavior_correct": false
+      },
+      "reflection_id": "c287f267-882c-47dc-87a9-567a1c3b9842"
+    }
+  ]
+}
