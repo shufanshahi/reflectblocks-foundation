@@ -368,10 +368,13 @@ export function ParticipantEvaluationMode({ onExit, onFinish }: { onExit: () => 
   }
 
   async function finishCurrentTask(extraObjective: Evidence = {}, extraComprehension: Evidence = {}) {
-    if (!sessionId || !task || savingTask || taskStartedAt == null) return;
+    if (!sessionId || !task || savingTask) return;
     const mergedObjective: Evidence = { ...observationsRef.current, ...objective, ...extraObjective, completed: true };
     const mergedComprehension: Evidence = { ...comprehension, ...extraComprehension };
-    const durationMs = Date.now() - taskStartedAt;
+    // A task must always be storable. If the start time was lost (for example an
+    // inner page navigated during the task), fall back to the last shown elapsed
+    // time rather than leaving the moderator with an unresponsive screen.
+    const durationMs = taskStartedAt != null ? Date.now() - taskStartedAt : elapsedMs;
     const results = buildRequirementResults(task.id, mergedObjective, mergedComprehension);
     const hasCritical = results.some((item) => item.status === "critical");
     const hasIssue = results.some((item) => item.status === "issue");

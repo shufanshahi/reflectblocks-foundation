@@ -227,8 +227,12 @@ export function JournalEntryPage({
     try {
       await deleteGeneratedEntry(reflectionId);
       clearRecovery(key);
+      setEntry(null);
+      setSavedBaseline(null);
+      setDirty(false);
       void trackUsability("delete_action", reflectionId, { action: "generated_journal" });
-      onBack();
+      // Deleting the entry is not "going back". The page renders its own empty
+      // state, and navigating away here was cancelling an in-flight guided task.
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not delete journal entry.");
     } finally {
